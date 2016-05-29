@@ -1,4 +1,8 @@
 # Closest Citibike
 Returns closest citibike station with open docks / available bikes based on party size
 
-url: sampleurl.com
+URL http://closestcitibike.com
+
+# Constraints
+ * Only works in Manhattan
+ * Laptop or phone must enable location
