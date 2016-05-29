@@ -13,8 +13,7 @@ def hello_world():
 @app.route('/citibike')
 def citibike():
 	r = requests.get('https://gbfs.citibikenyc.com/gbfs/gbfs.json')
-
-    d = r.json()
+	d = r.json()
     list_keys = d.keys()
     print(type(d['data']))
     print(d['data']['en']['feeds'][0])
