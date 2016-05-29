@@ -19,7 +19,7 @@ def citibike():
     print(d['data']['en']['feeds'][0])
     return pprint.pformat(d, indent=4)
 
-@app.route('geo')
+@app.route('/geo')
 def geo():
 	return render_template('geolocation.html')
 
