@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 import pprint
 import requests
+import jinja2
 
 
 app = Flask(__name__)
@@ -16,13 +17,13 @@ def citibike():
     r = requests.get('https://gbfs.citibikenyc.com/gbfs/gbfs.json')
     d = r.json()
     list_keys = d.keys()
-    print(type(d['data']))
-    print(d['data']['en']['feeds'][0])
     return pprint.pformat(d, indent=4)
+
 
 @app.route('/geo')
 def geo():
-	return render_template('base.html')
+    #return "Geo"
+    return render_template('base.html')
 
 if __name__ == '__main__':
     app.run()
