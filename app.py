@@ -21,9 +21,7 @@ def citibike():
 
 @app.route('/geo')
 def geo():
-	return render_template('geolocation.html')
-
-
+	return render_template('base.html')
 
 if __name__ == '__main__':
     app.run()
