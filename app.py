@@ -23,7 +23,7 @@ def citibike():
 @app.route('/geo')
 def geo():
     #return "Geo"
-    return render_template('base.html')
+    return render_template('geolocation.html')
 
 if __name__ == '__main__':
     app.run()
