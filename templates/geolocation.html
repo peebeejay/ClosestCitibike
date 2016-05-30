@@ -3,11 +3,20 @@
     <h1>sample test</h1>
     <p id="geo"> </p>
     <script>
-        function test_function(){
+        var x = document.getElementById("geo");
+
+        /*function test_function(){
             var x = document.getElementById("geo");
             x.innerHTML = "Testing innerHTML method";
-        }
-        window.onload = test_function;
+        }*/
 
+        function get_location(){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+        }
+        window.onload = get_location;
     </script>
 {% endblock %}
