@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content1 %}
+	<p><b>Closest Citibike Stations</b></p>
+	{% for station in station_list %}
+		<p><b>Station Name:</b> {{ station.name }}, <b>Distance:</b> {{ station.magnitude }},
+			<b>Bikes Available:</b> {{ station.num_bikes_available }}, <b>Docks Available:</b> {{ station.num_docks_available }}
+		</p>
+	{% endfor %}
+
+{% endblock %}
