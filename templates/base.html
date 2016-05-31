@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Closest Citibike </title>
+    <title> Closest Citibike - Home</title>
     <style>
         #map {
             width: 500px;
@@ -11,8 +11,14 @@
     </style>
 </head>
 <body>
-    <div> Closest Citibike </div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    
+    <div><h2> <b>Closest Citibike - Home</b></h2> </div>
     <hr>
     {% block content1 %} {% endblock %}
+
 </body>
 </html>
