@@ -1,26 +1,34 @@
 {% extends "base.html" %}
 {% block content1 %}
-    <p id="p_coordinates"> Loading Coordinates </p>
+    <p id="p_coordinates"> Loading Coordinates... </p>
     <p id="stations"> Loading Stations... </p>
+    <p id="status"> None...</p>
 
     <script>
         var x = document.getElementById("p_coordinates");
         var s = document.getElementById("stations");
+        var t = document.getElementById("status");
         var lat = "", lon = "";
+
 
         function get_location(){
         	if (navigator && navigator.geolocation) {
         		navigator.geolocation.getCurrentPosition(showPosition, displayError);
+        		//console.log("gets to getlocation function");
+        		t.innerHTML = "1";
         	} 
         	else {
             	console.log('Geolocation is not supported');
+            	t.innerHTML = "2";
         	}
         }
 
         function showPosition(position) {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
+            t.innerHTML = "3";
             x.innerHTML = "<b>Latitude: </b>" + lat + "<br><b>Longitude: </b>" + lon;
+            t.innerHTML = "4";
             send_geo();
         }
      
@@ -29,6 +37,7 @@
             $.getJSON($SCRIPT_ROOT + '/receive_coord', {lat: lat, lon: lon}, 
                 function(data) {
                     //$("#result").text(data.result);
+                    t.innerHTML = "5";
                     var str1 = "";
                     var headers = ["<b>Bikes Available - 2 minimum</b>", "<b>Docks Available - 2 minimum</b>"];
                     for (i=0; i<data.result.length; i++){
@@ -39,6 +48,7 @@
                     	str1 += "<br><br>";                   	
                     }
                     console.log(str1);
+
                     stations.innerHTML = str1;
                 }
             );
