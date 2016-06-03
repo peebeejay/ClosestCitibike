@@ -15,7 +15,7 @@
             lat = position.coords.latitude;
             lon = position.coords.longitude;
             x.innerHTML = "Latitude: " + lat + "<br>Longitude: " + lon;
-            send_geo();
+            send_geo2();
         }
       
         function send_geo(){
@@ -24,7 +24,7 @@
 
             $.ajax({
             url: ($SCRIPT_ROOT + '/receive_coord'),
-            data: JSON.stringify({'lat': lat, 'lon': lon}, null, '\t'),
+            data: JSON.stringify({"lat": lat, "lon": lon}, null, '\t'),
             contentType: 'application/json;charset=UTF-8',
             type: "POST",
             success: function(response) {
@@ -35,6 +35,25 @@
             }
             });
         }
+
+        function send_geo2(){
+            console.log(lat);
+            console.log(lon);
+            console.log("2nd function");
+            
+            $.getJSON($SCRIPT_ROOT + '/receive_coord', {lat: lat, lon: lon}, 
+                function(data) {
+                    //$("#result").text(data.result);
+                    console.log(data.result);
+                }
+            );
+        }
+
+
+
+
+
+
 
         window.onload = get_location;  
 
@@ -50,6 +69,7 @@
                     console.log(data.result);
             });
         }*/ 
+
         
     </script>
 {% endblock %}

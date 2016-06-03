@@ -39,7 +39,7 @@ def process_list(_station_status, _station_information, _a_lat, _a_lon):
         b_lon = station_data[key]['lon']
         station_data[key]['vector'] = (b_lat - _a_lat, b_lon - _a_lon)
 
-        # Calculate magnitude
+        # Calculate vector magnitude
         station_data[key]['magnitude'] = math.sqrt(station_data[key]['vector'][0]**2 + station_data[key]['vector'][1]**2)
         _station_data_list += [station_data[key]]
 
@@ -54,7 +54,8 @@ def print_station_data_all(_station_data_list):
 
 def print_station_data_final(_final):
     # Print list of closest stations that meets requirements
-    for x, station in enumerate(_final):
-        print(x, station['magnitude'], station['name'],  'BA:', station['num_bikes_available'], 'DA:', station['num_docks_available'])
+    for station_list in _final:
+        for x, station in enumerate(station_list):
+            print((x+1), station['magnitude'], station['name'],  'BA:', station['num_bikes_available'], 'DA:', station['num_docks_available'])
 
 

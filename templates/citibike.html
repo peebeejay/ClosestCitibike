@@ -1,10 +1,88 @@
 {% extends "base.html" %}
 {% block content1 %}
-	<p><b>Closest Citibike Stations</b></p>
-	{% for station in station_list %}
-		<p><b>Station Name:</b> {{ station.name }}, <b>Distance:</b> {{ station.magnitude }},
-			<b>Bikes Available:</b> {{ station.num_bikes_available }}, <b>Docks Available:</b> {{ station.num_docks_available }}
-		</p>
-	{% endfor %}
+    <p id="p_coordinates"> Loading Coordinates </p>
+    <p id="stations"> Loading Stations... </p>
 
+    <script>
+        var x = document.getElementById("p_coordinates");
+        var s = document.getElementById("stations");
+        var lat = "", lon = "";
+
+        function get_location(){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+
+        function showPosition(position) {
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            x.innerHTML = "<b>Latitude: </b>" + lat + "<br><b>Longitude: </b>" + lon;
+            send_geo2();
+        }
+      
+        function send_geo(){
+            console.log(lat);
+            console.log(lon);
+
+            $.ajax({
+            url: ($SCRIPT_ROOT + '/receive_coord'),
+            data: JSON.stringify({"lat": lat, "lon": lon}, null, '\t'),
+            contentType: 'application/json;charset=UTF-8',
+            type: "POST",
+            success: function(response) {
+                console.log("success:");
+            },
+            error: function(error) {
+                console.log("error");
+            }
+            });
+        }
+
+        function send_geo2(){
+            console.log(lat);
+            console.log(lon);
+            console.log("2nd function");
+            
+            $.getJSON($SCRIPT_ROOT + '/receive_coord', {lat: lat, lon: lon}, 
+                function(data) {
+                    //$("#result").text(data.result);
+                    console.log(data.result);
+                    var str1 = "";
+                    var headers = ["<b>Bikes Available - 2 minimum</b>", "<b>Docks Available - 2 minimum</b>"];
+                    console.log("should be 3 of these");
+                    for (i=0; i<data.result.length; i++){
+                    	str1 += headers[i] + "<br>";
+                    	for (j=0; j<data.result[i].length; j++){
+                    		str1 += ("<b>" + (j+1) + ": " + data.result[i][j].name + "</b> ||  Distance: " + ((data.result[i][j].magnitude)*69).toFixed(2) + " mi   | Bikes: " + data.result[i][j].num_bikes_available + "   Docks: " + data.result[i][j].num_docks_available+ "<br>");
+
+
+                    		//console.log(data.result[i][j]);
+                    	}
+                    	str1 += "<br><br>";
+                    	
+                    	//console.log("should be 2 of these");
+                    	
+                    }
+                    console.log(str1);
+                    stations.innerHTML = str1;
+                }
+            );
+        }
+
+        window.onload = get_location;  
+
+        /* //The function below is usable with Flask: request.args.get('key', default value, type=type)
+        /*function send_geo(){ 
+            $.getJSON($SCRIPT_ROOT + '/receive_coord', {
+                lat: lat,
+                lon: lon
+                }, 
+
+                function(data) {
+                    //$("#result").text(data.result);
+                    console.log(data.result);
+            });
+        }*/ 
+
+        
+    </script>
 {% endblock %}
