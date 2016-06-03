@@ -2,34 +2,25 @@
 {% block content1 %}
     <p id="p_coordinates"> Loading Coordinates... </p>
     <p id="stations"> Loading Stations... </p>
-    <p id="status"> None...</p>
 
     <script>
         var x = document.getElementById("p_coordinates");
         var s = document.getElementById("stations");
-        var t = document.getElementById("status");
         var lat = "", lon = "";
-
 
         function get_location(){
         	if (navigator && navigator.geolocation) {
         		navigator.geolocation.getCurrentPosition(showPosition, displayError);
-        		//console.log("gets to getlocation function");
-        		t.innerHTML = "1";
         	} 
         	else {
             	console.log('Geolocation is not supported');
-            	t.innerHTML = "2";
         	}
         }
 
         function showPosition(position) {
-            t.innerHTML = "1.2";
             lat = position.coords.latitude;
             lon = position.coords.longitude;
-            t.innerHTML = "3";
             x.innerHTML = "<b>Latitude: </b>" + lat + "<br><b>Longitude: </b>" + lon;
-            t.innerHTML = "4";
             send_geo();
         }
      
@@ -37,8 +28,6 @@
             console.log(lat, lon);       
             $.getJSON($SCRIPT_ROOT + '/receive_coord', {lat: lat, lon: lon}, 
                 function(data) {
-                    //$("#result").text(data.result);
-                    t.innerHTML = "5";
                     var str1 = "";
                     var headers = ["<b>Bikes Available - 2 minimum</b>", "<b>Docks Available - 2 minimum</b>"];
                     for (i=0; i<data.result.length; i++){
@@ -49,20 +38,19 @@
                     	str1 += "<br><br>";                   	
                     }
                     console.log(str1);
-
                     stations.innerHTML = str1;
                 }
             );
         }
+
         function displayError(){
         	x.innerHTML = "Geolocation unavailable";
-
         }
 
         window.onload = get_location;  
 
         /* //The function below is usable with Flask: request.args.get('key', default value, type=type)
-        /*function send_geo(){ 
+        function send_geo(){ 
             $.getJSON($SCRIPT_ROOT + '/receive_coord', {
                 lat: lat,
                 lon: lon
@@ -74,7 +62,9 @@
             });
         }*/ 
 
-        /*function send_geo(){
+        /* // The function below is an outdated version of send_geo that uses an AJAX POST method to send geolocation coordinates to the server
+           // To use this function, use the following in Flask: lat = request.json['lat']  ; # lon = request.json['lon']
+        	function send_geo(){
             console.log(lat);
             console.log(lon);
 

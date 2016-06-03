@@ -53,7 +53,8 @@ def print_station_data_all(_station_data_list):
 
 
 def print_station_data_final(_final):
-    # Print list of closest stations that meets requirements
+    """Print list of closest stations that meets requirements"""
+
     for station_list in _final:
         for x, station in enumerate(station_list):
             print((x+1), station['magnitude'], station['name'],  'BA:', station['num_bikes_available'], 'DA:', station['num_docks_available'])
