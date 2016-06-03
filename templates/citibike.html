@@ -9,63 +9,43 @@
         var lat = "", lon = "";
 
         function get_location(){
-            navigator.geolocation.getCurrentPosition(showPosition);
+        	if (navigator && navigator.geolocation) {
+        		navigator.geolocation.getCurrentPosition(showPosition, displayError);
+        	} 
+        	else {
+            	console.log('Geolocation is not supported');
+        	}
         }
 
         function showPosition(position) {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
             x.innerHTML = "<b>Latitude: </b>" + lat + "<br><b>Longitude: </b>" + lon;
-            send_geo2();
+            send_geo();
         }
-      
+     
         function send_geo(){
-            console.log(lat);
-            console.log(lon);
-
-            $.ajax({
-            url: ($SCRIPT_ROOT + '/receive_coord'),
-            data: JSON.stringify({"lat": lat, "lon": lon}, null, '\t'),
-            contentType: 'application/json;charset=UTF-8',
-            type: "POST",
-            success: function(response) {
-                console.log("success:");
-            },
-            error: function(error) {
-                console.log("error");
-            }
-            });
-        }
-
-        function send_geo2(){
-            console.log(lat);
-            console.log(lon);
-            console.log("2nd function");
-            
+            console.log(lat, lon);       
             $.getJSON($SCRIPT_ROOT + '/receive_coord', {lat: lat, lon: lon}, 
                 function(data) {
                     //$("#result").text(data.result);
-                    console.log(data.result);
                     var str1 = "";
                     var headers = ["<b>Bikes Available - 2 minimum</b>", "<b>Docks Available - 2 minimum</b>"];
-                    console.log("should be 3 of these");
                     for (i=0; i<data.result.length; i++){
                     	str1 += headers[i] + "<br>";
                     	for (j=0; j<data.result[i].length; j++){
                     		str1 += ("<b>" + (j+1) + ": " + data.result[i][j].name + "</b> |||  Distance: " + ((data.result[i][j].magnitude)*69).toFixed(2) + " mi  || Bikes: " + data.result[i][j].num_bikes_available + " |  Docks: " + data.result[i][j].num_docks_available+ "<br>");
-
-
-                    		//console.log(data.result[i][j]);
                     	}
-                    	str1 += "<br><br>";
-                    	
-                    	//console.log("should be 2 of these");
-                    	
+                    	str1 += "<br><br>";                   	
                     }
                     console.log(str1);
                     stations.innerHTML = str1;
                 }
             );
+        }
+        function displayError(){
+        	x.innerHTML("Geolocation unavailable");
+
         }
 
         window.onload = get_location;  
@@ -83,6 +63,23 @@
             });
         }*/ 
 
+        /*function send_geo(){
+            console.log(lat);
+            console.log(lon);
+
+            $.ajax({
+            url: ($SCRIPT_ROOT + '/receive_coord'),
+            data: JSON.stringify({"lat": lat, "lon": lon}, null, '\t'),
+            contentType: 'application/json;charset=UTF-8',
+            type: "POST",
+            success: function(response) {
+                console.log("success:");
+            },
+            error: function(error) {
+                console.log("error");
+            }
+            });
+        }*/
         
     </script>
 {% endblock %}
