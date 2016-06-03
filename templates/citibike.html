@@ -52,7 +52,7 @@
                     for (i=0; i<data.result.length; i++){
                     	str1 += headers[i] + "<br>";
                     	for (j=0; j<data.result[i].length; j++){
-                    		str1 += ("<b>" + (j+1) + ": " + data.result[i][j].name + "</b> ||  Distance: " + ((data.result[i][j].magnitude)*69).toFixed(2) + " mi   | Bikes: " + data.result[i][j].num_bikes_available + "   Docks: " + data.result[i][j].num_docks_available+ "<br>");
+                    		str1 += ("<b>" + (j+1) + ": " + data.result[i][j].name + "</b> |||  Distance: " + ((data.result[i][j].magnitude)*69).toFixed(2) + " mi  || Bikes: " + data.result[i][j].num_bikes_available + " |  Docks: " + data.result[i][j].num_docks_available+ "<br>");
 
 
                     		//console.log(data.result[i][j]);
