@@ -26,7 +26,7 @@ def receive_coord():
 
     # Create final list of stations based on constraints: bike_req OR dock_req
     # *** Add logic here - Section needs work ***
-    final = Citibike.create_final_list(station_data_list, _partySize=partySize, _stationReq=stationReq)
+    final = Citibike.create_final_list(station_data_list, pSize=partySize, statReq=stationReq)
 
     Citibike.print_station_data_final(final)
 
@@ -34,3 +34,4 @@ def receive_coord():
 
 if __name__ == '__main__':
     app.run()
+    print()
