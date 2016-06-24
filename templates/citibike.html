@@ -3,17 +3,28 @@
 {% block content1 %}
 <div class="container">
   <div class="row">
-    <div class="col-sm-6">
-       <p id="p_coordinates"> Loading Coordinates... </p>
-       <p id="stations"> Loading Stations... </p>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <p id="p_coordinates"> Loading Coordinates... </p>
+      <div class="stations" id="stations">
+	<div id="bikes"> </div>
+	<div id="parking" style="display: none;"></div>
+      </div>
     </div>
+    <div class="col-md-3"></div>
   </div>
-  <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default">Left</button>
-    <button type="button" class="btn btn-default">Middle</button>
-    <button type="button" class="btn btn-default">Right</button>
-  </div>
+  <br/>
+  
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="btn-group" role="group" aria-label="...">
+	<button type="button" id="bikebutton" class="btn btn-default">Bikes</button>
+	<button type="button" id="parkbutton" class="btn btn-default">Parking</button>
+      </div>
+    </div class="col-md-3"></div>
 </div>
-    <script type="text/javascript" src="/static/js/citibike.js">
-    </script>
+</div>
+<script type="text/javascript" src="/static/js/citibike.js">
+</script>
 {% endblock %}
