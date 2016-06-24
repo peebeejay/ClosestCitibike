@@ -1,49 +1,49 @@
 import math
 
 
-def create_final_list(_station_data_list, _partySize=1, _stationReq=3):
-    tempBikeList = []
-    tempDockList = []
+def create_final_list(statData, pSize=1, statReq=3):
+    bikeList = []
+    DockList = []
 
     # Collect 3 closest stations with available bikes >= party size
-    for station in _station_data_list:
-        if len(tempBikeList) == _stationReq:
+    for station in statData:
+        if len(bikeList) == statReq:
             break
-        if station['num_bikes_available'] >= _partySize:
-            tempBikeList += [station]
+        if station['num_bikes_available'] >= pSize:
+            bikeList += [station]
 
     # Collect 3 closest stations with available docks >= party size
-    for station in _station_data_list:
-        if len(tempDockList) == _stationReq:
+    for station in statData:
+        if len(DockList) == statReq:
             break
-        if station['num_docks_available'] >= _partySize:
-            tempDockList += [station]
+        if station['num_docks_available'] >= pSize:
+            DockList += [station]
 
     # returns tuple containing top 3 closest stations with available bikes & docks that meet constraints
-    return (tempBikeList, tempDockList)
+    return (bikeList, DockList)
 
 
-def process_list(_station_status, _station_information, _a_lat, _a_lon):
-    _station_data_list = []
+def process_list(stationStatus, stationInfo, _alat, _alon):
+    statDataList = []
 
-    station_data = {_station_information[i]['station_id']: _station_information[i] for i in range(0, len(_station_information))}
-    dict_station_information = {_station_status[i]['station_id']: _station_status[i] for i in range(0, len(_station_status))}
+    statData = {stationInfo[i]['station_id']: stationInfo[i] for i in range(0, len(stationInfo))}
+    dictStatInfo = {stationStatus[i]['station_id']: stationStatus[i] for i in range(0, len(stationStatus))}
 
-    for key in station_data.keys():
+    for key in statData.keys():
         # Transfers num_bikes & num_docks from station_info to station_data
-        station_data[key]['num_bikes_available'] = dict_station_information[key]['num_bikes_available']
-        station_data[key]['num_docks_available'] = dict_station_information[key]['num_docks_available']
+        statData[key]['num_bikes_available'] = dictStatInfo[key]['num_bikes_available']
+        statData[key]['num_docks_available'] = dictStatInfo[key]['num_docks_available']
 
         # Calculate vector between your location & citibike station
-        b_lat = station_data[key]['lat']
-        b_lon = station_data[key]['lon']
-        station_data[key]['vector'] = (b_lat - _a_lat, b_lon - _a_lon)
+        b_lat = statData[key]['lat']
+        b_lon = statData[key]['lon']
+        statData[key]['vector'] = (b_lat - _alat, b_lon - _alon)
 
         # Calculate vector magnitude
-        station_data[key]['magnitude'] = math.sqrt(station_data[key]['vector'][0]**2 + station_data[key]['vector'][1]**2)
-        _station_data_list += [station_data[key]]
+        statData[key]['magnitude'] = math.sqrt(statData[key]['vector'][0] ** 2 + statData[key]['vector'][1] ** 2)
+        statDataList += [statData[key]]
 
-    return sorted(_station_data_list, key=lambda k: k['magnitude'], reverse=False)
+    return sorted(statDataList, key=lambda k: k['magnitude'], reverse=False)
 
 
 def print_station_data_all(_station_data_list):
