@@ -5,3 +5,4 @@ certifi==0.0.8
 chardet==1.0.1
 gunicorn==19.1.0
 requests==2.10.0
+unirest==1.1.7

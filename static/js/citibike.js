@@ -19,15 +19,31 @@ var parkMarkers = [];
 var bar = new ProgressBar.Circle("#progress", {
   strokeWidth: 6,
   easing: 'easeInOut',
-  duration: 4000,
+  duration: 1000,
   color: '#000000',
   trailColor: '#eee',
   trailWidth: 1,
   svgStyle: null
 });
-$( "#progress" ).addClass("text-center");
-bar.animate(1.0);
-$( "#progress" ).addClass("text-center");
+bar.animate(1)
+setTimeout(function() {
+    bar.animate(0.25);
+}, 1000);
+
+setTimeout(function() {
+    bar.animate(1.0);
+}, 2000);
+
+setTimeout(function() {
+    bar.animate(.5);
+}, 3000);
+
+setTimeout(function() {
+    bar.animate(1.0);
+}, 4000);
+
+
+
 function initMap(latitude, longitude) {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: latitude, lng: longitude},
