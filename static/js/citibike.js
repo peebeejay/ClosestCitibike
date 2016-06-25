@@ -38,9 +38,11 @@ function initMap(latitude, longitude) {
 	position: map.getCenter(),
 	icon: {
 	    path: google.maps.SymbolPath.CIRCLE,
-	    scale: 4,
-	    fillColor: "#3300CC",
-	    strokeColor: "#3300CC",
+	    scale: 8,
+	    fillColor: "#3366FF",
+	    fillOpacity: 1,
+	    strokeColor: "#FFFFFF",
+	    strokeWeight: 4
 	},
 	map: map
     });
