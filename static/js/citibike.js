@@ -16,6 +16,18 @@ $("#parkbutton").click(function(){
 var map;
 var bikeMarkers = [];
 var parkMarkers = [];
+var bar = new ProgressBar.Circle("#progress", {
+  strokeWidth: 6,
+  easing: 'easeInOut',
+  duration: 4000,
+  color: '#000000',
+  trailColor: '#eee',
+  trailWidth: 1,
+  svgStyle: null
+});
+$( "#progress" ).addClass("text-center");
+bar.animate(1.0);
+$( "#progress" ).addClass("text-center");
 function initMap(latitude, longitude) {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: latitude, lng: longitude},
@@ -32,6 +44,8 @@ function initMap(latitude, longitude) {
 	},
 	map: map
     });
+    document.getElementById('map').style.display="block";
+    document.getElementById('progress').style.display="none";
 }
 
 function toggleVisible(enableMarkers, disableMarkers)
