@@ -81,9 +81,10 @@ function toggleVisible(enableMarkers, disableMarkers)
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var labelIndex = 0;
 
-function addMarker(latitude, longitude, markers) {
+function addMarker(address, latitude, longitude, markers) {
     // Add the marker at the clicked location, and add the next-available label
     // from the array of alphabetical characters.
+    console.log(address);
     console.log(typeof(lat));
     console.log(typeof(longitude));
     var myLatlng = new google.maps.LatLng(latitude,longitude);
@@ -93,9 +94,14 @@ function addMarker(latitude, longitude, markers) {
 	map: map
     });
 
-    var contentString = 'Address of Bike'
+    var contentString = address.num_bikes_available +' available bikes at '+address.name;
+    var contentString2 = '<div style="color:#0000FF">'+ address.name +'</div>'+
+    '<p>Available Bikes: </p>' + address.num_bikes_available +
+    '<p>Available Docks: </p>' +address.num_docks_available;
+    
+    //var moreContent = 'Number of Bikes: '+address.;
     var infowindow = new google.maps.InfoWindow({
-          content: contentString
+          content: contentString2
         });
      marker.addListener('click', function() {
           infowindow.open(map, marker);
@@ -138,7 +144,7 @@ function send_geo(){
 		      console.log(this.length)
 		      $.each(this, function() {
 
-			  let letter = addMarker(this.lat, this.lon, i ? parkMarkers: bikeMarkers);
+			  let letter = addMarker(this, this.lat, this.lon, i ? parkMarkers: bikeMarkers);
 			  ul0.append($('<li>',
 				       {text: letter + ": " + this.name,
 					class: 'list-group-item'})); // TODO: Add rest of content here
