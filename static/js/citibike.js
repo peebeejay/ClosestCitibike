@@ -132,6 +132,7 @@ function send_geo(){
 }
 
 function displayError(){
+    alert("Geolocation unavailable. Try with https.");
     x.innerHTML = "Geolocation unavailable";
 }
 
