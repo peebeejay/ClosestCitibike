@@ -4,8 +4,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3"></div>
+    <div id="map" class="col-md-8"></div>
+    <div class="col-md-3"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
     <div class="col-md-6">
-      <p id="p_coordinates"> Loading Coordinates... </p>
       <div class="stations" id="stations">
 	<div id="bikes"> </div>
 	<div id="parking" style="display: none;"></div>
@@ -25,6 +29,8 @@
     </div class="col-md-3"></div>
 </div>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCULBWkM7EHcIiQkOqisULz1AswwHkxl_U" async defer></script>
+
 <script type="text/javascript" src="/static/js/citibike.js">
 </script>
 {% endblock %}
