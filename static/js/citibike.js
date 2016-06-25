@@ -20,8 +20,8 @@ var bar = new ProgressBar.Circle("#progress", {
   strokeWidth: 6,
   easing: 'easeInOut',
   duration: 4000,
-  color: '#000000',
-  trailColor: '#eee',
+  color: '#000099',
+  trailColor: '#ff0000',
   trailWidth: 1,
   svgStyle: null
 });
@@ -34,6 +34,8 @@ function initMap(latitude, longitude) {
         zoom: 15
     });
 
+    
+
     var marker = new google.maps.Marker({
 	position: map.getCenter(),
 	icon: {
@@ -44,8 +46,22 @@ function initMap(latitude, longitude) {
 	    strokeColor: "#FFFFFF",
 	    strokeWeight: 4
 	},
+
+   
+
 	map: map
     });
+
+    var contentString = 'My Current Location'
+    var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+     marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+    
+
     document.getElementById('map').style.display="block";
     document.getElementById('progress').style.display="none";
 }
@@ -76,6 +92,14 @@ function addMarker(latitude, longitude, markers) {
 	label: labels[labelIndex++ % labels.length],
 	map: map
     });
+
+    var contentString = 'Address of Bike'
+    var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+     marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
     markers.push(marker);
     return  labels[labelIndex-1];
 }
