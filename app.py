@@ -55,6 +55,7 @@ def receive_coord():
 
     return jsonify(result=final)
 
+
 if __name__ == '__main__':
     global station_status
     global station_information
