@@ -14,7 +14,7 @@ def callback_station_status(response):
       print "in callback:", time.time() - t1
       global station_status
       station_status = response.body['data']['stations']
-  
+
 
 def callback_station_information(response):
       response.code # The HTTP status code
@@ -22,9 +22,9 @@ def callback_station_information(response):
       response.body # The parsed response
       response.raw_body # The unparsed response
       print "in callback2: ", time.time() - t1
-      global station_information
+global station_information
       station_information = response.body['data']['stations']
-  
+
 @app.route('/')
 def citibike():
     print "Citibike Method before unirest", time.time() - t1
