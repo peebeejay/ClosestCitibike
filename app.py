@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import Citibike
 import requests
 import unirest
+import time
 
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ def callback_station_status(response):
   response.headers # The HTTP headers
   response.body # The parsed response
   response.raw_body # The unparsed response
-  print "in callback"
+  print "in callback1", str(time.time())
   global station_status
   station_status = response.body['data']['stations']
   
@@ -20,7 +21,7 @@ def callback_station_information(response):
   response.headers # The HTTP headers
   response.body # The parsed response
   response.raw_body # The unparsed response
-  print "in callback"
+  print "in callback2", str(time.time())
   global station_information
   station_information = response.body['data']['stations']
   
