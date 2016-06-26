@@ -20,8 +20,8 @@ var bar = new ProgressBar.Circle("#progress", {
   strokeWidth: 6,
   easing: 'easeInOut',
   duration: 1000,
-  color: '#000099',
-  trailColor: '#ff0000',
+  color: '#000000',
+  trailColor: '#30A4EF',
   trailWidth: 1,
   svgStyle: null
 });
@@ -111,9 +111,8 @@ function addMarker(address, latitude, longitude, markers) {
     });
 
     var contentString = address.num_bikes_available +' available bikes at '+address.name;
-    var contentString2 = '<div style="color:#0000FF">'+ address.name +'</div>'+
-    '<p>Available Bikes: </p>' + address.num_bikes_available +
-    '<p>Available Docks: </p>' +address.num_docks_available;
+    var contentString2 = '<div style="color:#2C317A">'+ address.name +'</div>'+
+    '<p>Available Bikes: </p>'+address.num_bikes_available+'<p>Available Docks: </p>' +address.num_docks_available;
     
     //var moreContent = 'Number of Bikes: '+address.;
     var infowindow = new google.maps.InfoWindow({
