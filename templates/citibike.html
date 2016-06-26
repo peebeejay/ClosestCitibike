@@ -1,41 +1,51 @@
 
 {% extends "base.html" %}
 {% block content1 %}
+
 <div class="container text-center">
-  <div class="row text-center">
-    <div class="col-md-3">
-	<label for="zipcode"> Zipcode </label>
-	<input type="number" class="form-control" id="zipcode">
-      <br/>
-      <div class="stations" id="stations">
-	<div id="bikes"> </div>
-	<div id="parking" style="display: none;"></div>
-      </div>
-    </div>
+    <div class="row text-center">
+        <div class="col-md-3">
+            <label for="zipcode"> Zipcode </label>
+            <input type="number" class="form-control" id="zipcode">
+            
+            <br/>
 
-    <div id="map" class="col-md-9" style="display:none;">
+            <div class="stations" id="stations">
+                <div id="bikes"> </div>
+                <div id="parking" style="display: none;"></div>
+            </div>
+        </div>
+        <div id="map" class="col-md-9" style="display:none;"></div>
     </div>
-  </div>
-  <div id="progress" class="text-center"></div>
+    
 
-  <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-3"></div>
-  </div>
+    <div id="progress" class="text-center"></div>
+    
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
   <br/>
-  <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6 text-center">
-      <div class="btn-group text-center" role="group" aria-label="...">
-	<button type="button" id="bikebutton" class="btn btn-default">Bikes</button>
-	<button type="button" id="parkbutton" class="btn btn-default">Parking</button>
-      </div>
-    </div class="col-md-3"></div>
+  
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 text-center">
+            <div class="btn-group text-center" role="group" aria-label="...">
+                <button type="button" id="bikebutton" class="btn btn-default">Bikes</button>
+                <button type="button" id="parkbutton" class="btn btn-default">Parking</button>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
+
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCULBWkM7EHcIiQkOqisULz1AswwHkxl_U" async defer></script>
 <script type="text/javascript" b src="/static/js/progressbar.js"></script>
 <script type="text/javascript" src="/static/js/citibike.js">
+
 <link href="/static/css/citibike.css" rel="stylesheet">
+
 </script>
 {% endblock %}
