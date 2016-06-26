@@ -1,7 +1,7 @@
 # Closest Citibike
 Returns closest citibike station with open docks / available bikes based on party size
 
-URL https://closestcitibike.herokuapp.com/citibike
+URL https://closestcitibike.herokuapp.com/
 
 Theme: http://blackrockdigital.github.io/startbootstrap-grayscale/
 
