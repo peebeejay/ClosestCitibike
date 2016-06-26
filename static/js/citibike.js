@@ -138,16 +138,20 @@ function addMarker(address, latitude, longitude, markers) {
     });
 
     var contentString = address.num_bikes_available +' available bikes at '+address.name;
-    var contentString2 = '<div style="color:#2C317A">'+ address.name +'</div>'+
-    '<p>Available Bikes: </p>'+address.num_bikes_available+'<p>Available Docks: </p>' +address.num_docks_available;
+    var contentString2 = "<div style=color:#2C317A>"+ address.name +"</div> <p style='display:inline'> Available Bikes: " +address.num_bikes_available+ '</p> <p>Available Docks: '+address.num_docks_available+"</p>";
     
-    //var moreContent = 'Number of Bikes: '+address.;
     var infowindow = new google.maps.InfoWindow({
           content: contentString2
         });
+    prev_infowindow = false;
      marker.addListener('click', function() {
-          infowindow.open(map, marker);
+        if(prev_infowindow) {
+            prev_infowindow.close();
+        }
+        prev_infowindow = infowindow;
+        infowindow.open(map, marker);
         });
+
     markers.push(marker);
     return  labels[labelIndex-1];
 }
