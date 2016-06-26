@@ -27,8 +27,10 @@ def callback_station_information(response):
   
 @app.route('/')
 def citibike():
+    print "before unirest"
     thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
     thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
+    print "after unirest"
 
     return render_template('citibike.html')
 
