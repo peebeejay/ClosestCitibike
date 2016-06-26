@@ -42,6 +42,24 @@ setTimeout(function() {
     bar.animate(1.0);
 }, 4000);
 
+$("#zipcode").keyup(function(event){
+    if(event.keyCode == 13){
+	var zipcode = $("#zipcode").val();
+	var address = zipcode;
+	console.debug(address);
+	console.debug(typeof(address));
+	var geocoder = new google.maps.Geocoder();
+	geocoder.geocode( { 'address': address}, function(results, status) {
+	    if (status == google.maps.GeocoderStatus.OK) {
+		lat = results[0].geometry.location.lat();
+		lon = results[0].geometry.location.lng();
+		refreshPosition();
+	    } else {
+		alert("Geocode was not successful for the following reason: " + status);
+	    }
+	});
+    }
+});
 
 
 function initMap(latitude, longitude) {
@@ -88,10 +106,19 @@ function toggleVisible(enableMarkers, disableMarkers)
     for (var i = 0; i < len; ++i)
     {
 	console.log(i, enableMarkers[i]);
-
 	enableMarkers[i].setVisible(true);
 	disableMarkers[i].setVisible(false);	
     }
+}
+
+function clearMarkers(markers)
+{
+    len = markers.length;
+    for (var i = 0; i < len; ++i)
+    {
+	markers[i].setMap(null);
+    }
+    markers = []
 }
 
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -129,18 +156,18 @@ function addMarker(address, latitude, longitude, markers) {
 
 
 var x = document.getElementById("p_coordinates");
-        var s = document.getElementById("stations");
-        var lat = "", lon = "";
+var s = document.getElementById("stations");
+var lat = "", lon = "";
 
-        function get_location(){
-            if (navigator && navigator.geolocation) {
-		console.log("Getting geolocation")
-        	navigator.geolocation.getCurrentPosition(showPosition, displayError);
-        	} 
-        	else {
-            	console.log('Geolocation is not supported');
-        	}
-        }
+function get_location(){
+    if (navigator && navigator.geolocation) {
+	console.log("Getting geolocation")
+        navigator.geolocation.getCurrentPosition(showPosition, displayError);
+    } 
+    else {
+        console.log('Geolocation is not supported');
+    }
+}
 
 function showPosition(position) {
     console.log("Geolocation coordinates acquired");
@@ -148,6 +175,17 @@ function showPosition(position) {
     lon = position.coords.longitude;
     initMap(lat,lon)
     send_geo();
+}
+
+function refreshPosition()
+{
+    clearMarkers(parkMarkers);
+    clearMarkers(bikeMarkers);
+    $("#bikes").empty();
+    $("#parking").empty();
+    send_geo();
+    initMap(lat,lon);
+    labelIndex = 0;
 }
 
 function send_geo(){

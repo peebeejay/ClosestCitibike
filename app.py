@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import Citibike
 import requests
 import unirest
+import time
 
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ def callback_station_status(response):
   response.headers # The HTTP headers
   response.body # The parsed response
   response.raw_body # The unparsed response
-  print "in callback"
+  print "in callback1", str(time.time())
   global station_status
   station_status = response.body['data']['stations']
   
@@ -20,14 +21,16 @@ def callback_station_information(response):
   response.headers # The HTTP headers
   response.body # The parsed response
   response.raw_body # The unparsed response
-  print "in callback"
+  print "in callback2", str(time.time())
   global station_information
   station_information = response.body['data']['stations']
   
 @app.route('/')
 def citibike():
+    print "before unirest"
     thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
     thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
+    print "after unirest"
 
     return render_template('citibike.html')
 
@@ -54,6 +57,7 @@ def receive_coord():
     #Citibike.print_station_data_final(final)
 
     return jsonify(result=final)
+
 
 if __name__ == '__main__':
     global station_status
