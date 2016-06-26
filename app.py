@@ -1,38 +1,55 @@
 from flask import Flask, render_template, jsonify, request
 import Citibike
-import requests
+#import requests
 import unirest
 import time
+import celery
 
 app = Flask(__name__)
 
 def callback_station_status(response):
-  response.code # The HTTP status code
-  response.headers # The HTTP headers
-  response.body # The parsed response
-  response.raw_body # The unparsed response
-  print "in callback1", str(time.time())
-  global station_status
-  station_status = response.body['data']['stations']
+    response.code # The HTTP status code
+    response.headers # The HTTP headers
+    response.body # The parsed response
+    response.raw_body # The unparsed response
+    print "in callback1", str(time.time())
+    global station_status
+    station_status = response.body['data']['stations']
   
 
 def callback_station_information(response):
-  response.code # The HTTP status code
-  response.headers # The HTTP headers
-  response.body # The parsed response
-  response.raw_body # The unparsed response
-  print "in callback2", str(time.time())
-  global station_information
-  station_information = response.body['data']['stations']
+    response.code # The HTTP status code
+    response.headers # The HTTP headers
+    response.body # The parsed response
+    response.raw_body # The unparsed response
+    print "in callback2", str(time.time())
+    global station_information
+    station_information = response.body['data']['stations']
   
 @app.route('/')
 def citibike():
     print "before unirest"
-    thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
-    thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
+    # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
+    # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
+
+
+    global station_information
+    global station_status
+
+    station_information = CitibikeAPICaller.getStationInfo()[0]
+    station_status = CitibikeAPICaller.getStationStatus()[0]
+
+    print (CitibikeAPICaller.getStationInfo()[1] - t1)
+    print (CitibikeAPICaller.getStationStatus()[1] - t1)
+
     print "after unirest"
 
     return render_template('citibike.html')
+
+@app.route('/testing')
+def test():
+    print CitibikeAPICaller.getStationStatus()
+    return "Hello"
 
 
 @app.route("/receive_coord")
@@ -62,4 +79,9 @@ def receive_coord():
 if __name__ == '__main__':
     global station_status
     global station_information
+    global CitibikeAPICaller
+    global t1
+    t1 = time.time()
+    CitibikeAPICaller = Citibike.APICall(interval=10)
     app.run()
+    print "after run"
