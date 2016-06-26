@@ -11,7 +11,7 @@ def callback_station_status(response):
       response.headers # The HTTP headers
       response.body # The parsed response
       response.raw_body # The unparsed response
-      print("in callback:", time.time() - t1)
+      print "in callback:", time.time() - t1
       global station_status
       station_status = response.body['data']['stations']
   
@@ -21,16 +21,16 @@ def callback_station_information(response):
       response.headers # The HTTP headers
       response.body # The parsed response
       response.raw_body # The unparsed response
-      print("in callback2: ", time.time() - t1)
+      print "in callback2: ", time.time() - t1
       global station_information
       station_information = response.body['data']['stations']
   
 @app.route('/')
 def citibike():
-    print("Citibike Method before unirest", time.time() - t1)
+    print "Citibike Method before unirest", time.time() - t1
     thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
     thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
-    print("Citibike Method after unirest", time.time() - t1)
+    print "Citibike Method after unirest", time.time() - t1
 
 
     return render_template('citibike.html')
@@ -40,10 +40,10 @@ def citibike():
 def receive_coord():
     a_lat = request.args.get('lat', 0, type=float)
     a_lon = request.args.get('lon', 0, type=float)
-    print("Coordinates:", a_lat, ", ", a_lon)
+    print "Coordinates:", a_lat, ", ", a_lon
     partySize = 2
     stationReq = 5
-    print("Receive coord", time.time() - t1)
+    print "Receive coord", time.time() - t1
 
     # Retrieve station data from Citibike API
     # station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
