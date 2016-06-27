@@ -37,6 +37,7 @@ def citibike():
     global station_information
     global station_status
     print "after global var declaration"
+    print type(CitibikeAPICaller)
     station_information = CitibikeAPICaller.getStationInfo()[0]
     station_status = CitibikeAPICaller.getStationStatus()[0]
 
@@ -75,9 +76,11 @@ def receive_coord():
 if __name__ == '__main__':
     global station_status
     global station_information
-    global CitibikeAPICaller
     global t1
     t1 = time.time()
+    
+    print "probably at the citibikeAPIcaller global definition.."
+    global CitibikeAPICaller
     CitibikeAPICaller = Citibike.APICall(interval=60)
 
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
