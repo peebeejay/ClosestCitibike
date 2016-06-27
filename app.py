@@ -3,6 +3,7 @@ import Citibike
 #import requests
 import unirest
 import time
+import logging, sys
 
 
 app = Flask(__name__)
@@ -31,11 +32,11 @@ def citibike():
     print "before unirest"
     # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
     # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
-
-
+    print "after unirest"
+    print "before global var declaration"
     global station_information
     global station_status
-
+    print "after global var declaration"
     station_information = CitibikeAPICaller.getStationInfo()[0]
     station_status = CitibikeAPICaller.getStationStatus()[0]
 
@@ -78,5 +79,9 @@ if __name__ == '__main__':
     global t1
     t1 = time.time()
     CitibikeAPICaller = Citibike.APICall(interval=60)
+
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
+
     app.run(debug=True)
 
