@@ -4,7 +4,7 @@ import Citibike
 import unirest
 import time
 import logging, sys
-from Citibike import APICall
+
 
 
 app = Flask(__name__)
@@ -38,7 +38,7 @@ def citibike():
     global station_information
     global station_status
     print "4. ------------>after global var declaration"
-    print type(CitibikeAPICaller)
+
     station_information = CitibikeAPICaller.getStationInfo()[0]
     station_status = CitibikeAPICaller.getStationStatus()[0]
 
@@ -73,6 +73,8 @@ def receive_coord():
 
     return jsonify(result=final)
 
+global CitibikeAPICaller
+CitibikeAPICaller = Citibike.APICall(interval=60)
 
 if __name__ == '__main__':
     global station_status
@@ -80,9 +82,9 @@ if __name__ == '__main__':
     global t1
     t1 = time.time()
     
-    print "-------------------------->>>***************probably at the citibikeAPIcaller global definition.."
-    global CitibikeAPICaller
-    CitibikeAPICaller = Citibike.APICall(interval=60)
+    # print "-------------------------->>>***************probably at the citibikeAPIcaller global definition.."
+    # global CitibikeAPICaller
+    # CitibikeAPICaller = Citibike.APICall(interval=60)
 
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.ERROR)
