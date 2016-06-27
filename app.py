@@ -78,5 +78,5 @@ if __name__ == '__main__':
     global t1
     t1 = time.time()
     CitibikeAPICaller = Citibike.APICall(interval=60)
-    app.run()
+    app.run(debug=True)
 
