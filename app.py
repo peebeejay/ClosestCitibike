@@ -4,6 +4,7 @@ import Citibike
 import unirest
 import time
 import logging, sys
+from Citibike import APICall
 
 
 app = Flask(__name__)
@@ -29,14 +30,14 @@ def callback_station_information(response):
   
 @app.route('/')
 def citibike():
-    print "before unirest"
+    print "1. --------------->before unirest"
     # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
     # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
-    print "after unirest"
-    print "before global var declaration"
+    print "2. ------------>after unirest"
+    print "3. ------------>before global var declaration"
     global station_information
     global station_status
-    print "after global var declaration"
+    print "4. ------------>after global var declaration"
     print type(CitibikeAPICaller)
     station_information = CitibikeAPICaller.getStationInfo()[0]
     station_status = CitibikeAPICaller.getStationStatus()[0]
@@ -44,7 +45,7 @@ def citibike():
     print "---> Station info succesfully transferred - Freshness Guaranteed as of: ", str(CitibikeAPICaller.getStationInfo()[1])
     print "---> Station status info successfully transferred - Freshness Guaranteed as of: ", str(CitibikeAPICaller.getStationStatus()[1])
 
-    print "after unirest"
+    print "5. ------------>after unirest"
 
     return render_template('citibike.html')
 
@@ -79,7 +80,7 @@ if __name__ == '__main__':
     global t1
     t1 = time.time()
     
-    print "probably at the citibikeAPIcaller global definition.."
+    print "-------------------------->>>***************probably at the citibikeAPIcaller global definition.."
     global CitibikeAPICaller
     CitibikeAPICaller = Citibike.APICall(interval=60)
 
