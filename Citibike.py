@@ -71,12 +71,16 @@ class APICall(object):
     until the application exits.
     """
 
-    def __init__(self, interval=1):
+    def __init__(self, interval=30):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in seconds
         """
         self.interval = interval
+        self.station_information = {}
+        self.station_status = {}
+        self.t1 = time.asctime()
+        self.t2 = time.asctime()
 
 
         thread = threading.Thread(target=self.run, args=())
@@ -90,16 +94,16 @@ class APICall(object):
             thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=self.callback_station_status)
             thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=self.callback_station_information)
             app.station_information = "success" # This is temporary obviously
-            print('Doing something important in the background')
+            print 'Doing something important in the background'
             time.sleep(self.interval)
 
     def getStationStatus(self):
         # potential to use time.asctime() to create time stamp for tracking purposes
-        return (self.station_status, time.time())
+        return (self.station_status, self.t1)
 
     def getStationInfo(self):
         # potential to use time.asctime() to create time stamp for tracking purposes
-        return (self.station_information, time.time())
+        return (self.station_information, self.t2)
 
 
     def callback_station_status(self, response):
@@ -110,6 +114,7 @@ class APICall(object):
         print "in callback1", str(time.time())
         # station_status
         self.station_status = response.body['data']['stations']
+        self.t1 = time.asctime()
 
 
     def callback_station_information(self, response):
@@ -120,7 +125,7 @@ class APICall(object):
         print "in callback2", str(time.time())
         # station_information
         self.station_information = response.body['data']['stations']
-
+        self.t2 = time.asctime()
 
 # example = ThreadingExample()
 # time.sleep(3)

@@ -3,7 +3,7 @@ import Citibike
 #import requests
 import unirest
 import time
-import celery
+
 
 app = Flask(__name__)
 
@@ -39,17 +39,12 @@ def citibike():
     station_information = CitibikeAPICaller.getStationInfo()[0]
     station_status = CitibikeAPICaller.getStationStatus()[0]
 
-    print (CitibikeAPICaller.getStationInfo()[1] - t1)
-    print (CitibikeAPICaller.getStationStatus()[1] - t1)
+    print "---> Station info succesfully transferred - Freshness Guaranteed as of: ", str(CitibikeAPICaller.getStationInfo()[1])
+    print "---> Station status info successfully transferred - Freshness Guaranteed as of: ", str(CitibikeAPICaller.getStationStatus()[1])
 
     print "after unirest"
 
     return render_template('citibike.html')
-
-@app.route('/testing')
-def test():
-    print CitibikeAPICaller.getStationStatus()
-    return "Hello"
 
 
 @app.route("/receive_coord")
@@ -82,6 +77,6 @@ if __name__ == '__main__':
     global CitibikeAPICaller
     global t1
     t1 = time.time()
-    CitibikeAPICaller = Citibike.APICall(interval=10)
+    CitibikeAPICaller = Citibike.APICall(interval=60)
     app.run()
-    print "after run"
+
