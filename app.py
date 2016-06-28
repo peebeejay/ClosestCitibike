@@ -1,52 +1,16 @@
 from flask import Flask, render_template, jsonify, request
-import Citibike
-#import requests
-import unirest
 import time
-import logging, sys
-
+import logging
+import sys
+import requests
+import threading
+import Citibike
 
 
 app = Flask(__name__)
 
-def callback_station_status(response):
-    response.code # The HTTP status code
-    response.headers # The HTTP headers
-    response.body # The parsed response
-    response.raw_body # The unparsed response
-    print "in callback1", str(time.time())
-    global station_status
-    station_status = response.body['data']['stations']
-  
-
-def callback_station_information(response):
-    response.code # The HTTP status code
-    response.headers # The HTTP headers
-    response.body # The parsed response
-    response.raw_body # The unparsed response
-    print "in callback2", str(time.time())
-    global station_information
-    station_information = response.body['data']['stations']
-  
 @app.route('/')
 def citibike():
-    print "1. --------------->before unirest"
-    # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json', headers={ "Accept": "application/json" }, callback=callback_station_status)
-    # thread = unirest.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json', headers={ "Accept": "application/json" }, callback=callback_station_information)
-    print "2. ------------>after unirest"
-    print "3. ------------>before global var declaration"
-    global station_information
-    global station_status
-    print "4. ------------>after global var declaration"
-
-    station_information = CitibikeAPICaller.getStationInfo()[0]
-    station_status = CitibikeAPICaller.getStationStatus()[0]
-
-    print "---> Station info succesfully transferred - Freshness Guaranteed as of: ", str(CitibikeAPICaller.getStationInfo()[1])
-    print "---> Station status info successfully transferred - Freshness Guaranteed as of: ", str(CitibikeAPICaller.getStationStatus()[1])
-
-    print "5. ------------>after unirest"
-
     return render_template('citibike.html')
 
 
@@ -58,36 +22,55 @@ def receive_coord():
     partySize = 2
     stationReq = 5
 
-    # Retrieve station data from Citibike API
-    # station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
-    # station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
+    global station_information
+    global station_status
+
+    station_information = CitibikeAPICaller.getStationInfo()[0]
+    station_status = CitibikeAPICaller.getStationStatus()[0]
+    print("---> Data is Fresh as of: ", str(CitibikeAPICaller.getStationStatus()[1]))
 
     # Process data received from Citibike API
     station_data_list = Citibike.process_list(station_status, station_information, a_lat, a_lon)
-
-    # Create final list of stations based on constraints: bike_req OR dock_req
-    # *** Add logic here - Section needs work ***
     final = Citibike.create_final_list(station_data_list, pSize=partySize, statReq=stationReq)
-
-    #Citibike.print_station_data_final(final)
-
     return jsonify(result=final)
 
-global CitibikeAPICaller
-CitibikeAPICaller = Citibike.APICall(interval=60)
 
-if __name__ == '__main__':
-    global station_status
-    global station_information
-    global t1
-    t1 = time.time()
-    
-    # print "-------------------------->>>***************probably at the citibikeAPIcaller global definition.."
-    # global CitibikeAPICaller
-    # CitibikeAPICaller = Citibike.APICall(interval=60)
+class APICall(object):
+    def __init__(self, interval=30):
+        self.interval = interval
+        self.station_information = {}
+        self.station_status = {}
+        self.t1 = time.asctime()
+        self.t2 = time.asctime()
 
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
+
+    def run(self):
+        while True:
+            time.sleep(self.interval)
+
+            self.station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
+            self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
+            self.t1 = time.asctime()
+            self.t2 = time.asctime()
+            print('Arrival Of Fresh Data --->', "|", time.asctime())
+
+    def getStationStatus(self):
+        return self.station_status, self.t1
+
+    def getStationInfo(self):
+        return self.station_information, self.t2
+
+
+CitibikeAPICaller = APICall(interval=30)
+
+if __name__ == "__main__":
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.ERROR)
 
     app.run()
+
+
 
