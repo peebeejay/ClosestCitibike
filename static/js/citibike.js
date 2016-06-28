@@ -42,10 +42,9 @@ setTimeout(function() {
     bar.animate(1.0);
 }, 4000);
 
-$("#zipcode").keyup(function(event){
+$("#address").keyup(function(event){
     if(event.keyCode == 13){
-	var zipcode = $("#zipcode").val();
-	var address = zipcode;
+	var address = $("#address").val();
 	console.debug(address);
 	console.debug(typeof(address));
 	var geocoder = new google.maps.Geocoder();
