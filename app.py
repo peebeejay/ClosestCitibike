@@ -55,7 +55,7 @@ class APICall(object):
             self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
             self.t1 = time.asctime()
             self.t2 = time.asctime()
-            print('Arrival Of Fresh Data (>▀¯▀)>   ', time.asctime())
+            print('Arrival Of Fresh Data --->', "|", time.asctime())
 
     def getStationStatus(self):
         return self.station_status, self.t1
