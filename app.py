@@ -9,6 +9,7 @@ import Citibike
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def citibike():
     return render_template('citibike.html')
@@ -49,13 +50,12 @@ class APICall(object):
 
     def run(self):
         while True:
-            time.sleep(self.interval)
-
             self.station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
             self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
             self.t1 = time.asctime()
             self.t2 = time.asctime()
             print('Arrival Of Fresh Data --->', "|", time.asctime())
+            time.sleep(self.interval)
 
     def getStationStatus(self):
         return self.station_status, self.t1
