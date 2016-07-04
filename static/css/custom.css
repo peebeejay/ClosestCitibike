@@ -5,7 +5,7 @@ min-height: 100%;
 }
 
 #override{
-	background: url(https://c2.staticflickr.com/2/1495/25252015696_f5e114a5ff_h.jpg);
+	background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.4)), url(https://c2.staticflickr.com/2/1495/25252015696_f5e114a5ff_h.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	margin-bottom: 40px;
@@ -23,6 +23,8 @@ min-height: 100%;
 	margin: 0 auto;
 }
 
+
+/* --> Footer Section <-- */
 .footer {
 	position: absolute;
 	bottom: 0;
@@ -38,6 +40,7 @@ min-height: 100%;
 	padding:5px;
 }
 
+/* --> link Color Section <-- */
 a:link {
 	color: rgba(176,0,0,1);
 	background-color: transparent;
