@@ -155,6 +155,34 @@ function addMarker(address, latitude, longitude, markers) {
     return  labels[labelIndex-1];
 }
 
+String.prototype.ljust = function( width, padding ) {
+    padding = padding || " ";
+    padding = padding.substr( 0, 1 );
+    if( this.length < width )
+        return this + padding.repeat( width - this.length );
+    else
+        return this;
+}
+String.prototype.rjust = function( width, padding ) {
+    padding = padding || " ";
+    padding = padding.substr( 0, 1 );
+    if( this.length < width )
+        return padding.repeat( width - this.length ) + this;
+    else
+        return this;
+}
+String.prototype.center = function( width, padding ) {
+    padding = padding || " ";
+    padding = padding.substr( 0, 1 );
+    if( this.length < width ) {
+        var len     = width - this.length;
+        var remain  = ( len % 2 == 0 ) ? "" : padding;
+        var pads    = padding.repeat( parseInt( len / 2 ) );
+        return pads + this + pads + remain;
+    }
+    else
+        return this;
+}
 
 
 var x = document.getElementById("p_coordinates");
@@ -193,30 +221,31 @@ function refreshPosition()
 function send_geo(){
     console.log(lat, lon);       
     $.getJSON($SCRIPT_ROOT + '/receive_coord', {lat: lat, lon: lon}, 
-              function(data) {
-		  var i = 0;
-		  $.each(data.result, function() {
-		      var ul0= $('<ul class="list-group">');
-		      console.log(this.length)
-		      $.each(this, function() {
+        function(data) {
+            var i = 0;
+            $.each(data.result, function() {
+                var ul0= $('<ul class="list-group">');
+                console.log(this.length)
+                $.each(this, function() {
+                    let letter = addMarker(this, this.lat, this.lon, i ? parkMarkers: bikeMarkers);
+                    var table_string = (letter + ")").ljust(3) + 
+                        ("B: " + this.num_bikes_available + "  D: " + this.num_docks_available).ljust(12) + " - " + this.name;
+                    console.log(table_string);
+                    // text: letter.ljust(10) + ": " + this.name + "- B:" + this.num_bikes_available + "  D:" + this.num_docks_available,
 
-			  let letter = addMarker(this, this.lat, this.lon, i ? parkMarkers: bikeMarkers);
-			  ul0.append($('<li>',
-				       {text: letter + ": " + this.name,
-					class: 'list-group-item'})); // TODO: Add rest of content here
-		      });
-		      if (i == 0)
-			  $("#bikes").append(ul0);
-		      else
-			  $("#parking").append(ul0);
-
-		      i++;
-
-		      
-		  });
-		  toggleVisible(bikeMarkers, parkMarkers);
-              }
-             );
+                    ul0.append($('<li>',
+                        {text: table_string,
+                        class: 'list-group-item'})); // TODO: Add rest of content here
+                });
+                if (i == 0)
+                $("#bikes").append(ul0);
+                else
+                $("#parking").append(ul0);
+                i++;
+            });
+        toggleVisible(bikeMarkers, parkMarkers);
+        }
+    );
 }
 
 function displayError(){

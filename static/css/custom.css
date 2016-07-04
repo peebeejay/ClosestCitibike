@@ -15,11 +15,11 @@ min-height: 100%;
 	font-family: 'Open Sans', sans-serif;;
 	color: white;
 }
+
 #c-label-content{
 	font-family: 'Open Sans', sans-serif;;
 	color: white;
 }
-
 
 #map {
 	width: 500px;
@@ -47,8 +47,14 @@ min-height: 100%;
 
 .footerp{
 	padding:5px;
-	font-family: 'Open Sans', sans-serif;;
+	font-family: 'Open Sans', sans-serif;
 	color: white;
+}
+
+.list-group-item{
+	font-family: 'Open Sans', sans-serif;
+	text-align: left;
+
 }
 
 /* --> link Color Section <-- */
