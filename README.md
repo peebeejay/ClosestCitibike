@@ -1,9 +1,16 @@
 # Closest Citibike
-Returns closest citibike station with open docks / available bikes based on party size
 
-URL https://closestcitibike.herokuapp.com/
+Created by:
+https://github.com/rohankshir
+https://github.com/radhikak1234
+https://github.com/vdersar1
 
-Theme: http://blackrockdigital.github.io/startbootstrap-grayscale/
+
+Returns 5 closest citibike stations with open docks or available bikes
+
+URL: https://closestcitibike.herokuapp.com/
+
+Theme: WIP
 
 # Constraints
  * Only works in Manhattan

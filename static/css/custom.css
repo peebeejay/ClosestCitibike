@@ -1,0 +1,57 @@
+
+html {
+position: relative;
+min-height: 100%;
+}
+
+#override{
+	background: url(https://c2.staticflickr.com/2/1495/25252015696_f5e114a5ff_h.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin-bottom: 40px;
+
+}
+
+#map {
+	width: 500px;
+	height: 400px;
+}
+
+#progress {
+	width: 200px;
+	height: 200px;
+	margin: 0 auto;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 40px;
+	font-family:"chaparral_proregular";
+	text-align:center;
+	background-color:rgba(255,255,255,0.5);
+}
+
+.footerp{
+	padding:5px;
+}
+
+a:link {
+	color: rgba(176,0,0,1);
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:visited {
+    color: blue;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    color: green;
+    background-color: transparent;
+    text-decoration: none;
+}
