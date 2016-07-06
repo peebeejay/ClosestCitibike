@@ -227,7 +227,7 @@ function send_geo(){
                 var ul0= $('<ul class="list-group">');
                 console.log(this.length)
                 $.each(this, function() {
-                    let letter = addMarker(this, this.lat, this.lon, i ? parkMarkers: bikeMarkers);
+                    var letter = addMarker(this, this.lat, this.lon, i ? parkMarkers: bikeMarkers);
                     var table_string = (letter + ")").ljust(3) + 
                         ("B: " + this.num_bikes_available + "  D: " + this.num_docks_available).ljust(12) + " - " + this.name;
                     console.log(table_string);
