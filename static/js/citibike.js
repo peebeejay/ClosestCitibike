@@ -168,7 +168,7 @@ function send_geo(){
 		      console.log(this.length)
 		      $.each(this, function() {
 
-			  let letter = addMarker(this.lat, this.lon, i ? parkMarkers: bikeMarkers);
+			  var letter = addMarker(this.lat, this.lon, i ? parkMarkers: bikeMarkers);
 			  ul0.append($('<li>',
 				       {text: letter + ": " + this.name,
 					class: 'list-group-item'})); // TODO: Add rest of content here
