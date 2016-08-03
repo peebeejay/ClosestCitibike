@@ -20,7 +20,7 @@ def receive_coord():
     a_lat = request.args.get('lat', 0, type=float)
     a_lon = request.args.get('lon', 0, type=float)
     print("Coordinates:", a_lat, ", ", a_lon)
-    partySize = 2
+    partySize = 1
     stationReq = 5
 
     global station_information
