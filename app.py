@@ -42,7 +42,6 @@ class APICall(object):
         self.station_information = {}
         self.station_status = {}
         self.t1 = time.asctime()
-        self.t2 = time.asctime()
 
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True                            # Daemonize thread
@@ -53,7 +52,6 @@ class APICall(object):
             self.station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
             self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
             self.t1 = time.asctime()
-            self.t2 = time.asctime()
             print('Arrival Of Fresh Data --->', "|", time.asctime())
             time.sleep(self.interval)
 
@@ -61,7 +59,7 @@ class APICall(object):
         return self.station_status, self.t1
 
     def getStationInfo(self):
-        return self.station_information, self.t2
+        return self.station_information, self.t1
 
 
 CitibikeAPICaller = APICall(interval=30)
