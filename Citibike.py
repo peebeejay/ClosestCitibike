@@ -1,4 +1,4 @@
-import math
+import math, threading, time, requests
 
 
 def create_final_list(statData, pSize=1, statReq=3):
@@ -58,3 +58,29 @@ def print_station_data_final(_final):
     for station_list in _final:
         for x, station in enumerate(station_list):
             print((x+1), station['magnitude'], station['name'],  'BA:', station['num_bikes_available'], 'DA:', station['num_docks_available'])
+
+
+class APICall(object):
+    def __init__(self, interval=30):
+        self.interval = interval
+        self.station_information = {}
+        self.station_status = {}
+        self.t1 = time.asctime()
+
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
+
+    def run(self):
+        while True:
+            self.station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
+            self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
+            self.t1 = time.asctime()
+            print('Arrival Of Fresh Data --->', "|", time.asctime())
+            time.sleep(self.interval)
+
+    def getStationStatus(self):
+        return self.station_status, self.t1
+
+    def getStationInfo(self):
+        return self.station_information, self.t1

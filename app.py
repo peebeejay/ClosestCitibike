@@ -1,10 +1,7 @@
 from flask import Flask, render_template, jsonify, request
-import time
 import logging
 import sys
-import requests
-import threading
-import Citibike
+from Citibike import APICall, process_list, create_final_list
 
 
 app = Flask(__name__)
@@ -23,43 +20,15 @@ def receive_coord():
     partySize = 1
     stationReq = 5
 
-    global station_information
-    global station_status
-
+    # Call the Citibike API and get the latest station data
     station_information = CitibikeAPICaller.getStationInfo()[0]
     station_status = CitibikeAPICaller.getStationStatus()[0]
     print("---> Data is Fresh as of: ", str(CitibikeAPICaller.getStationStatus()[1]))
 
     # Process data received from Citibike API
-    station_data_list = Citibike.process_list(station_status, station_information, a_lat, a_lon)
-    final = Citibike.create_final_list(station_data_list, pSize=partySize, statReq=stationReq)
+    station_data_list = process_list(station_status, station_information, a_lat, a_lon)
+    final = create_final_list(station_data_list, pSize=partySize, statReq=stationReq)
     return jsonify(result=final)
-
-
-class APICall(object):
-    def __init__(self, interval=30):
-        self.interval = interval
-        self.station_information = {}
-        self.station_status = {}
-        self.t1 = time.asctime()
-
-        thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
-
-    def run(self):
-        while True:
-            self.station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
-            self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
-            self.t1 = time.asctime()
-            print('Arrival Of Fresh Data --->', "|", time.asctime())
-            time.sleep(self.interval)
-
-    def getStationStatus(self):
-        return self.station_status, self.t1
-
-    def getStationInfo(self):
-        return self.station_information, self.t1
 
 
 CitibikeAPICaller = APICall(interval=30)
