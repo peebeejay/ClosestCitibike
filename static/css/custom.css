@@ -4,13 +4,17 @@ position: relative;
 min-height: 100%;
 }
 
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+	margin-bottom: 30px; /* Margin bottom by footer height */
+}
+
 #override{
 	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0)), url(https://c2.staticflickr.com/2/1495/25252015696_f5e114a5ff_h.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
-	margin-bottom: 30px;
-
 }
+
 #header-content{
 	font-family: 'Open Sans', sans-serif;;
 	color: white;
@@ -34,44 +38,52 @@ min-height: 100%;
 
 
 /* --> Footer Section <-- */
-.footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	/* Set the fixed height of the footer here */
-	height: 30px;
-	text-align:center;
-	background-color:rgba(255,255,255,0.7);
-}
+	.footer {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		/* Set the fixed height of the footer here */
+		height: 30px;
+		text-align:center;
+		background-color: #222222;
+		/*background-color:rgba(255,255,255,0.7);*/
+	}
 
-.footerp{
-	padding:5px;
-	font-family: 'Open Sans', sans-serif;
-	color: white;
-}
+	.container .text-muted {
+	  margin: 5px 0;
+	}
+/* --> End Footer Section <-- */
+	.list-group-item{
+		font-family: 'Open Sans', sans-serif;
+		text-align: left;
+	}
 
-.list-group-item{
-	font-family: 'Open Sans', sans-serif;
-	text-align: left;
 
-}
+	/* --> link Color Section <-- */
+	a:link {
+		color: rgba(176,0,0,1);
+		background-color: transparent;
+		text-decoration: none;
+	}
 
-/* --> link Color Section <-- */
-a:link {
-	color: rgba(176,0,0,1);
-	background-color: transparent;
-	text-decoration: none;
-}
+	a:visited {
+	    color: black;
+	    background-color: transparent;
+	    text-decoration: none;
+	}
 
-a:visited {
-    color: black;
-    background-color: transparent;
-    text-decoration: none;
-}
+	a:hover {
+	    color: green;
+	    background-color: transparent;
+	    text-decoration: none;
+	}
+/* --> End List Color Section <-- */
 
-a:hover {
-    color: green;
-    background-color: transparent;
-    text-decoration: none;
-}
+
+/*
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}*/
 

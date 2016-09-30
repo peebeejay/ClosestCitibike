@@ -7,12 +7,10 @@ Created by:
 
 
 
-Returns 5 closest citibike stations with open docks or available bikes
+Returns 5 closest Citibike stations with at least 1 open dock or 1 available bike based on your device's automatically provided geolocation
 
-URL: https://closestcitibike.herokuapp.com/
-
-Theme: WIP
+URL: https://closestcitibike.com/
 
 # Constraints
- * Only works in Manhattan
- * Laptop or phone must enable location
+ * Can only be used effectively when Citibike stations are in the vicinity
+ * Laptop or phone must enable location; HTTPS use is compulsory
