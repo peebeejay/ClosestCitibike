@@ -60,35 +60,50 @@
 
     <!-- Begin Content -->
     <div class="container-fluid">
-        <div class="row text-center">
+        <div class="row">
+
+            <!-- Begin Left Column -->
             <div class="col-md-3">                            
+                <!-- Begin Station Table -->
                 <div class="stations" id="stations">
                     <div id="bikes"> </div>
                     <div id="parking" style="display: none;"></div>
                 </div>
-            </div>
-            <div id="map" class="col-md-9" style="display:none;"></div>
-        </div>
-        <div id="progress" class="text-center"></div>
-        
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-3"></div>
-        </div>
-        
-        <br/>
-        
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6 text-center">
-                <div class="btn-group text-center" role="group" aria-label="...">
-                    <button type="button" id="bikebutton" class="btn btn-default">Bikes</button>
-                    <button type="button" id="parkbutton" class="btn btn-default">Parking</button>
+                <!-- End Station Table -->
+                <br />
+
+                <!-- Begin Toggle Buttons -->
+                <div class="text-center">
+                    <div class="btn-group text-center" role="group" aria-label="...">
+                        <button type="button" id="bikebutton" class="btn btn-default">Bikes</button>
+                        <button type="button" id="parkbutton" class="btn btn-default">Parking</button>
+                    </div>
                 </div>
+                <!-- End Toggle Buttons -->
+
             </div>
+            <!-- End Left Column -->
+
+            <!-- Begin Map & Right Column -->
+            <div class="col-md-9 text-center">
+                <div id="map" style="display:none;"></div>
+            </div>
+            <!-- End Map & Right Column -->
         </div>
+
+        <!-- Begin Progress Bar -->
+        <div id="progress" class="text-center"></div>
+        <!-- End Progress Bar -->
+        
+        <div class="row">
+            <div class="col-md-12"></div>
+        </div>
+        
+
     </div> <!-- container -->
     <!-- End Content -->
+
+
 
 
     <!-- Footer -->
