@@ -11,7 +11,7 @@ body {
 
 
 #override{
-	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0)), url(https://c2.staticflickr.com/2/1495/25252015696_f5e114a5ff_h.jpg);
+	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0)), url(https://c1.staticflickr.com/1/524/20098039728_3c0096ca92_k.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -34,7 +34,7 @@ body {
 #progress {
 	width: 200px;
 	height: 200px;
-	margin: 0 auto;
+	margin: 10vh auto;
 }
 
 
@@ -48,10 +48,11 @@ body {
 		text-align:center;
 		background-color: #222222;
 		/*background-color:rgba(255,255,255,0.7);*/
+		font-size: 12px;
 	}
 
 	.container .text-muted {
-	  margin: 5px 0;
+	  margin: 7px 0;
 	}
 /* --> End Footer Section <-- */
 
@@ -64,25 +65,7 @@ body {
 /* --> End List Group Item Section <-- */
 
 
-/* --> Begin Link Color Section <-- */
-	a:link {
-		color: rgba(176,0,0,1);
-		background-color: transparent;
-		text-decoration: none;
-	}
 
-	a:visited {
-	    color: black;
-	    background-color: transparent;
-	    text-decoration: none;
-	}
-
-	a:hover {
-	    color: green;
-	    background-color: transparent;
-	    text-decoration: none;
-	}
-/* --> End List Color Section <-- */
 
 
 /*
