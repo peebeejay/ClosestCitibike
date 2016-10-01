@@ -39,8 +39,13 @@
             
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"></button>
-                <a class="navbar-brand">Closest Citibike</a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"><b>Closest Citibike</b></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,7 +56,7 @@
                     </div>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="https://github.com/vdersar1/ClosestCitibike">Github</a></li>
+                    <li><a href="https://github.com/vdersar1/ClosestCitibike"><b>Github</b></a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -61,6 +66,13 @@
     <!-- Begin Content -->
     <div class="container-fluid">
         <div class="row">
+
+            <!-- Begin Map & Right Column -->
+            <div class="col-md-9 text-center">
+                <div id="map" style="display:none;"></div>
+            </div>
+            <!-- End Map & Right Column -->
+            
 
             <!-- Begin Left Column -->
             <div class="col-md-3">                            
@@ -79,16 +91,12 @@
                         <button type="button" id="parkbutton" class="btn btn-default">Parking</button>
                     </div>
                 </div>
+                <br />
+                <br />
                 <!-- End Toggle Buttons -->
 
             </div>
             <!-- End Left Column -->
-
-            <!-- Begin Map & Right Column -->
-            <div class="col-md-9 text-center">
-                <div id="map" style="display:none;"></div>
-            </div>
-            <!-- End Map & Right Column -->
         </div>
 
         <!-- Begin Progress Bar -->
@@ -109,11 +117,16 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="text-muted"> 
-                <script>
-                    var d = new Date();
-                    document.write("Closest Citibike " + d.getFullYear());
-                </script>
+            <p class="text-muted">
+                
+                    <script>
+                        var d = new Date();
+                        document.write("Closest Citibike " + d.getFullYear());
+                    </script>  |  Background:
+                    <a href="https://www.flickr.com/photos/anotherangle/20098039728/in/photolist-wBZH1m-65HKwa-bnukWP-LfzVJ-fP7VXA-rk1w5d-pxmnU8-qZHV1L-q8M4T8-pRvQ7e-e7qcfj-dAfwFv-qv6Z85-bkqtV2-fxKmTc-oFJycD-nn3zeN-b4vjux-9zuqjt-nG4Pus-pddxcK-bXa8uS-e5nCAp-3mxv3t-nKPKRF-4FTwMB-nPS94R-8TucXC-od2sS9-CUeFQu-9KFTeC-8Usydv-r8TmkK-rmHK8f-pAGCxQ-eMHPFd-ewYJrJ-oHYxpK-prZfbM-qWHWNG-cFS5f3-jRMbJ2-ejBDDU-peLKMT-i79qR9-cXx7Yh-oLCvrL-eegek2-pWgg42-aw32Yx/"><i>'A New Hierarchy'</i></a>
+                     by Michael Muraz licensed under 
+                    <a href="https://creativecommons.org/licenses/by/2.0/"> CC BY 2.0</a>
+                
             </p>
         </div>
     </footer>
@@ -123,9 +136,8 @@
     <!-- JS Scripts -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCULBWkM7EHcIiQkOqisULz1AswwHkxl_U" async defer></script>
         <script type="text/javascript" src="/static/js/progressbar.js"></script>
-        <script type="text/javascript" src="/static/js/citibike.js">
-            <link href="/static/css/citibike.css" rel="stylesheet">
-        </script>
+        <script type="text/javascript" src="/static/js/citibike.js"></script>
+        <script type="text/javascript" src="/static/js/site.js"></script>
     <!-- End JS Scripts -->
 
 </body>
