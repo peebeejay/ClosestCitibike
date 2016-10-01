@@ -9,6 +9,7 @@ body {
 	margin-bottom: 30px; /* Margin bottom by footer height */
 }
 
+
 #override{
 	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0)), url(https://c2.staticflickr.com/2/1495/25252015696_f5e114a5ff_h.jpg);
 	background-size: cover;
@@ -37,7 +38,7 @@ body {
 }
 
 
-/* --> Footer Section <-- */
+/* --> Begin Footer Section <-- */
 	.footer {
 		position: absolute;
 		bottom: 0;
@@ -53,13 +54,17 @@ body {
 	  margin: 5px 0;
 	}
 /* --> End Footer Section <-- */
+
+
+/* --> Begin List Group Item Section <-- */
 	.list-group-item{
 		font-family: 'Open Sans', sans-serif;
 		text-align: left;
 	}
+/* --> End List Group Item Section <-- */
 
 
-	/* --> link Color Section <-- */
+/* --> Begin Link Color Section <-- */
 	a:link {
 		color: rgba(176,0,0,1);
 		background-color: transparent;
