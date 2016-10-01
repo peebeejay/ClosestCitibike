@@ -1,3 +1,6 @@
+//
+//
+//
 
 $("#bikebutton").click(function(){
     console.log("bike button");
@@ -147,7 +150,7 @@ function addMarker(address, latitude, longitude, markers) {
     });
 
     var contentString = address.num_bikes_available +' available bikes at '+address.name;
-    var contentString2 = "<div style=color:#2C317A>"+ address.name +"</div> <p style='display:inline'> Available Bikes: " +address.num_bikes_available+ '</p> <p>Available Docks: '+address.num_docks_available+"</p>";
+    var contentString2 = "<div style=color:#2C317A><b>"+ address.name +"</b></div> <p style='display:inline'> Available Bikes: " +address.num_bikes_available+ '</p> <p>Available Docks: '+address.num_docks_available+"</p>";
     
     var infowindow = new google.maps.InfoWindow({
           content: contentString2
