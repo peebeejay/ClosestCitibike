@@ -9,7 +9,7 @@ Created by:
 
 Returns 5 closest Citibike stations with at least 1 open dock or 1 available bike based on your device's automatically provided geolocation
 
-URL: https://closestcitibike.com/
+URL: www.closestcitibike.com/
 
 # Constraints
  * Can only be used effectively when Citibike stations are in the vicinity
