@@ -60,10 +60,13 @@ def webhook():
                 elif "attachments" in messaging_event["message"].keys():
                     log("--> LIKELY MAP MESSAGE <--")
                     if "payload" in messaging_event["message"]["attachments"][0].keys():
-                        log("LATITUDE: " + str(messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["lat"]))
-                        log("LONGITUDE: " + str(messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["long"]))
-                        # copy code from receive_coords here
+                        a_lat = messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["lat"]
+                        a_lon = messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["long"]
 
+                        log("LATITUDE: " + str(a_lat))
+                        log("LONGITUDE: " + str(a_lon))
+                        
+                        # copy code from receive_coords here
                         partySize = 1
                         stationReq = 5
 
