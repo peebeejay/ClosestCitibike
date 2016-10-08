@@ -1,25 +1,25 @@
 import math, threading, time, requests
 
 
-def create_final_list(statData, pSize=1, statReq=3):
+def create_final_list(statData, pSize=1, statReq=5):
     bikeList = []
     DockList = []
 
-    # Collect 3 closest stations with available bikes >= party size
+    # Collect 5 closest stations with available bikes >= party size
     for station in statData:
         if len(bikeList) == statReq:
             break
         if station['num_bikes_available'] >= pSize:
             bikeList += [station]
 
-    # Collect 3 closest stations with available docks >= party size
+    # Collect 5 closest stations with available docks >= party size
     for station in statData:
         if len(DockList) == statReq:
             break
         if station['num_docks_available'] >= pSize:
             DockList += [station]
 
-    # returns tuple containing top 3 closest stations with available bikes & docks that meet constraints
+    # returns tuple containing top 5 closest stations with available bikes & docks that meet constraints
     return (bikeList, DockList)
 
 

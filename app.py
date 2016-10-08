@@ -29,6 +29,7 @@ def receive_coord():
     final = create_final_list(station_data_list, pSize=partySize, statReq=stationReq)
     return jsonify(result=final)
 
+
 @app.route('/chatbot', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -56,12 +57,12 @@ def webhook():
                 log("**********")
                 if "text" in messaging_event["message"].keys():
                     log("--> TEXT MESSAGE <--")
-                if "attachments" in messaging_event["message"].keys():
+                elif "attachments" in messaging_event["message"].keys():
                     log("--> LIKELY MAP MESSAGE <--")
                     if "payload" in messaging_event["message"]["attachments"][0].keys():
                         log("LATITUDE: " + str(messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["lat"]))
                         log("LONGITUDE: " + str(messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["long"]))
-
+                        # copy code from receive_coords here
 
 
 
