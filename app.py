@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify, request
-import logging
-import sys
 from Citibike import APICall, process_list, create_final_list
+import logging, sys, os, json, requests
+
+
 
 
 app = Flask(__name__)
