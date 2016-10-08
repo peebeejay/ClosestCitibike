@@ -59,7 +59,7 @@ def webhook():
                     log("--> TEXT MESSAGE <--")
                 elif "attachments" in messaging_event["message"].keys():
                     log("--> LIKELY MAP MESSAGE <--")
-                    if "payload" in messaging_event["message"]["attachments"][0].keys():
+                    if "payload" in messaging_event["message"]["attachments"][0].keys() and messaging_event["message"]["attachments"][0]["payload"] != None:
                         a_lat = messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["lat"]
                         a_lon = messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["long"]
 
