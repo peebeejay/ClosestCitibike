@@ -64,6 +64,21 @@ def webhook():
                         log("LONGITUDE: " + str(messaging_event["message"]["attachments"][0]["payload"]["coordinates"]["long"]))
                         # copy code from receive_coords here
 
+                        partySize = 1
+                        stationReq = 5
+
+                        # Call the Citibike API and get the latest station data
+                        station_information = CitibikeAPICaller.getStationInfo()[0]
+                        station_status = CitibikeAPICaller.getStationStatus()[0]
+                        print("---> Data is Fresh as of: ", str(CitibikeAPICaller.getStationStatus()[1]))
+
+                        # Process data received from Citibike API
+                        station_data_list = process_list(station_status, station_information, a_lat, a_lon)
+                        final = create_final_list(station_data_list, pSize=partySize, statReq=stationReq)
+                        print(final)
+                        sender_id = messaging_event["sender"]["id"] 
+                        send_message(sender_id, "will send you stations in the next commit")
+
 
 
     '''
