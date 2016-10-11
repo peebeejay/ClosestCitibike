@@ -1,63 +1,4 @@
-import math, threading, time, requests
-
-
-def create_final_list(statData, pSize=1, statReq=5):
-    bikeList = []
-    DockList = []
-
-    # Collect 5 closest stations with available bikes >= party size
-    for station in statData:
-        if len(bikeList) == statReq:
-            break
-        if station['num_bikes_available'] >= pSize:
-            bikeList += [station]
-
-    # Collect 5 closest stations with available docks >= party size
-    for station in statData:
-        if len(DockList) == statReq:
-            break
-        if station['num_docks_available'] >= pSize:
-            DockList += [station]
-
-    # returns tuple containing top 5 closest stations with available bikes & docks that meet constraints
-    return (bikeList, DockList)
-
-
-def process_list(stationStatus, stationInfo, _alat, _alon):
-    statDataList = []
-
-    statData = {stationInfo[i]['station_id']: stationInfo[i] for i in range(0, len(stationInfo))}
-    dictStatInfo = {stationStatus[i]['station_id']: stationStatus[i] for i in range(0, len(stationStatus))}
-
-    for key in statData.keys():
-        # Transfers num_bikes & num_docks from station_info to station_data
-        statData[key]['num_bikes_available'] = dictStatInfo[key]['num_bikes_available']
-        statData[key]['num_docks_available'] = dictStatInfo[key]['num_docks_available']
-
-        # Calculate vector between your location & citibike station
-        b_lat = statData[key]['lat']
-        b_lon = statData[key]['lon']
-        statData[key]['vector'] = (b_lat - _alat, b_lon - _alon)
-
-        # Calculate vector magnitude
-        statData[key]['magnitude'] = math.sqrt(statData[key]['vector'][0] ** 2 + statData[key]['vector'][1] ** 2)
-        statDataList += [statData[key]]
-
-    return sorted(statDataList, key=lambda k: k['magnitude'], reverse=False)
-
-
-def print_station_data_all(_station_data_list):
-    print("\n")
-    for station in _station_data_list:
-        print(station['magnitude'], station['name'], 'BA:', station['num_bikes_available'], 'DA:', station['num_docks_available'])
-
-
-def print_station_data_final(_final):
-    """Print list of closest stations that meets requirements"""
-
-    for station_list in _final:
-        for x, station in enumerate(station_list):
-            print((x+1), station['magnitude'], station['name'],  'BA:', station['num_bikes_available'], 'DA:', station['num_docks_available'])
+import math, threading, time, requests, googlemaps, os, json
 
 
 class APICall(object):
@@ -84,3 +25,188 @@ class APICall(object):
 
     def getStationInfo(self):
         return self.station_information, self.t1
+
+
+
+def createFinalList(statData, pSize=1, statReq=5):
+    bikeList = []
+    DockList = []
+
+    # Collect N closest stations with available bikes >= party size
+    for station in statData:
+        if len(bikeList) == statReq:
+            break
+        if station['num_bikes_available'] >= pSize:
+            bikeList += [station]
+
+    # Collect N closest stations with available docks >= party size
+    for station in statData:
+        if len(DockList) == statReq:
+            break
+        if station['num_docks_available'] >= pSize:
+            DockList += [station]
+
+    # returns tuple containing top N closest stations with available bikes & docks that meet constraints
+    return bikeList, DockList
+
+
+def processList(stationStatus, stationInfo, _alat, _alon):
+    statDataList = []
+
+    statData = {stationInfo[i]['station_id']: stationInfo[i] for i in range(0, len(stationInfo))}
+    dictStatInfo = {stationStatus[i]['station_id']: stationStatus[i] for i in range(0, len(stationStatus))}
+
+    for key in statData.keys():
+        # Transfers num_bikes & num_docks from station_info to station_data
+        statData[key]['num_bikes_available'] = dictStatInfo[key]['num_bikes_available']
+        statData[key]['num_docks_available'] = dictStatInfo[key]['num_docks_available']
+
+        # Calculate vector between your location & citibike station
+        b_lat = statData[key]['lat']
+        b_lon = statData[key]['lon']
+        statData[key]['vector'] = (b_lat - _alat, b_lon - _alon)
+
+        # Calculate vector magnitude
+        statData[key]['magnitude'] = math.sqrt(statData[key]['vector'][0] ** 2 + statData[key]['vector'][1] ** 2)
+        statDataList += [statData[key]]
+
+    return sorted(statDataList, key=lambda k: k['magnitude'], reverse=False)
+
+
+def validLocation(lat, lon):
+    # Checks whether requested location is within 75 miles of New York City
+    lat_nyc = 40.712700
+    lon_nyc = -74.005900
+    if (math.sqrt((lat-lat_nyc)**2 + (lon-lon_nyc)**2))*110 >75:
+        return False
+    else:
+        return True
+
+
+def ChatbotStations(final, address):
+    # Creates output messages for Chatbot
+
+    sb = "Showing results for " + address + "\n\nBikes\n"
+    for item in final[0]:
+        sb += str(item["name"] + ": " + str(item["num_bikes_available"]) + " bikes\n")
+
+    sd = "Docks\n"
+    for item in final[1]:
+        sd+= str(item["name"] + ": " + str(item["num_docks_available"]) + " docks\n")
+
+    sd+= "\nFor map view visit closestcitibike.com"
+    return sb, sd
+
+
+
+## Chatbot Message Processing Functions
+def processMessage(message):
+    # Processes all incoming messages from facebook. Uses a function dispatcher dictionary for.. polymorphism
+
+    # Invalid location or string message
+    invalid = "Send us your location or enter a location name"
+
+    # Dispatcher dictionary containing message type evaluation & processing functions
+    dispatcher = {textMessage: processText, mapMessage: processMap}
+
+    for key in dispatcher.keys():
+        if key(message):
+            return dispatcher[key](message)
+    return invalid
+
+
+def textMessage(m):
+    # Checks if a sent message is a Text-type message. Returns True if text message, False otherwise
+    return "text" in m["message"].keys()
+
+
+def mapMessage(m):
+    # Checks if a sent message is a Map-type message. Returns True if map message, False otherwise
+    if "attachments" in m["message"].keys():
+        if "payload" in m["message"]["attachments"][0].keys() and m["message"]["attachments"][0]["payload"]:
+            if "coordinates" in m["message"]["attachments"][0]["payload"].keys():
+                return True
+    return False
+
+
+def processText(m):
+    # Processes a Text-Type message and returns an appropriate response
+
+    specify = "Be more specific or add 'New York' to your location"
+    geocode_results = gmaps.geocode(m["message"]["text"])
+
+    if len(geocode_results) > 0:
+        a_lat = geocode_results[0]['geometry']['location']['lat']
+        a_lon = geocode_results[0]['geometry']['location']['lng']
+        fAddress = geocode_results[0]["formatted_address"]
+
+        if validLocation(a_lat, a_lon):
+            final = processCoords(a_lat, a_lon, stationReq_=3, partySize_=1)
+            return [ChatbotStations(final, fAddress)[0], ChatbotStations(final, fAddress)[1]]
+        else:
+            return specify
+    else:
+        return specify
+
+
+def processMap(m):
+    # Processes a Map-Type message and returns an appropriate response based on location validity
+    a_lat = m["message"]["attachments"][0]["payload"]["coordinates"]["lat"]
+    a_lon = m["message"]["attachments"][0]["payload"]["coordinates"]["long"]
+
+    final = processCoords(a_lat, a_lon, stationReq_=3, partySize_=1)
+
+    fAddress = gmaps.reverse_geocode((a_lat, a_lon))[0]["formatted_address"]
+    return [ChatbotStations(final, fAddress)[0], ChatbotStations(final, fAddress)[1]]
+
+
+def processCoords(lat, lon, stationReq_, partySize_):
+    # Returns a list of valid stations sorted by distance from the user
+
+    # Print the inputted latitude and longitude to console
+    print("Lat: " + str(lat))
+    print("Lon: " + str(lon))
+
+    # Call the Citibike API and get the latest station data
+    station_information = APICaller.getStationInfo()[0]
+    station_status = APICaller.getStationStatus()[0]
+
+    print("---> Data Used for Calculations is Fresh as of: ", str(APICaller.getStationStatus()[1]))
+
+    # Process data received from Citibike API
+    station_data_list = processList(station_status, station_information, lat, lon)
+    final = createFinalList(station_data_list, pSize=partySize_, statReq=stationReq_)
+
+    return final
+
+def sendMessage(recipientID, messageText):
+    # Packages and sends message to facebook graph API
+
+    print("sending message to {recipient}: {text}".format(recipient=recipientID, text=messageText))
+
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({
+        "recipient": {
+            "id": recipientID
+        },
+        "message": {
+            "text": messageText
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        print(r.status_code)
+        print(r.text)
+
+def main():
+    # Define Global Variables
+    global APICaller
+    APICaller = APICall(interval=30)
+
+    global gmaps
+    gmaps = googlemaps.Client(key='AIzaSyCULBWkM7EHcIiQkOqisULz1AswwHkxl_U')
