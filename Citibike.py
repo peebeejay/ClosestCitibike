@@ -112,7 +112,7 @@ def processMessage(message):
     for key in dispatcher.keys():
         if key(message):
             return dispatcher[key](message)
-    return invalid
+    return [invalid]
 
 
 def textMessage(m):
@@ -144,9 +144,9 @@ def processText(m):
             final = processCoords(a_lat, a_lon, stationReq_=3, partySize_=1)
             return [ChatbotStations(final, fAddress)[0], ChatbotStations(final, fAddress)[1]]
         else:
-            return specify
+            return [specify]
     else:
-        return specify
+        return [specify]
 
 
 def processMap(m):
