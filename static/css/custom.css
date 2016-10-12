@@ -37,6 +37,10 @@ body {
 	margin: 10vh auto;
 }
 
+#privacy {
+    background-color: #222222;
+}
+
 
 /* --> Begin Footer Section <-- */
 	.footer {
