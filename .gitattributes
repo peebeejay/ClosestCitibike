@@ -1,0 +1,7 @@
+# Line endings: enforce LF in GitHub, convert to native on checkout.
+
+
+# Make GitHub ignore vendor libraries while computing language stats.
+# See https://github.com/github/linguist#overrides.
+
+/static/js/libraries/* linguist-vendored=true
