@@ -7,9 +7,11 @@ Created by:
 
 
 
-Returns 5 closest Citibike stations with at least 1 open dock or 1 available bike based on your device's automatically provided geolocation
+Site: Returns 5 closest Citibike stations with at least 1 open dock or 1 available bike based on your device's automatically provided geolocation
+Chatbot: Returns 3 closest Citibike stations with at least 1 open dock or 1 available bike based on your device's automatically provided geolocation
 
 URL: www.closestcitibike.com/
+FB Chatbot: https://www.facebook.com/ClosestCitibikeBot/
 
 # Constraints
  * Can only be used effectively when Citibike stations are in the vicinity
