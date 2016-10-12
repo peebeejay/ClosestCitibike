@@ -1,7 +1,11 @@
+# Contains functions related to the processing of location coordinates and chatbot messages
+# This is a module that is supplementary to app.py
+
 import math, threading, time, requests, googlemaps, os, json
 
 
 class APICall(object):
+    # Daemon process that continuously calls the Citibike API in n second increments
     def __init__(self, interval=30):
         self.interval = interval
         self.station_information = {}
@@ -29,6 +33,7 @@ class APICall(object):
 
 
 def createFinalList(statData, pSize=1, statReq=5):
+    # Create a tuple that contains a list of n stations that contain open bikes & n stations that contain open docks
     bikeList = []
     DockList = []
 
@@ -51,6 +56,7 @@ def createFinalList(statData, pSize=1, statReq=5):
 
 
 def processList(stationStatus, stationInfo, _alat, _alon):
+    # Sorts the list of stations based on distance to the user's inputted location
     statDataList = []
 
     statData = {stationInfo[i]['station_id']: stationInfo[i] for i in range(0, len(stationInfo))}
@@ -103,12 +109,13 @@ def ChatbotStations(final, address):
 def processMessage(message):
     # Processes all incoming messages from facebook. Uses a function dispatcher dictionary for.. polymorphism
 
-    # Invalid location or string message
+    # Invalid location string message
     invalid = "Send us your location or enter a location name"
 
     # Dispatcher dictionary containing message type evaluation & processing functions
     dispatcher = {textMessage: processText, mapMessage: processMap}
 
+    # Checks if message matches a known type. If so, processes message with corresponding function
     for key in dispatcher.keys():
         if key(message):
             return dispatcher[key](message)
