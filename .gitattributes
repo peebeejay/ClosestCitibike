@@ -5,3 +5,4 @@
 # See https://github.com/github/linguist#overrides.
 
 /static/js/libraries/* linguist-vendored=true
+/static/css/bootstrap.min.css linguist-vendored=true
