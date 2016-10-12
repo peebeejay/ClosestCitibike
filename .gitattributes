@@ -6,3 +6,4 @@
 
 /static/js/libraries/* linguist-vendored=true
 /static/css/bootstrap.min.css linguist-vendored=true
+/templates/* linguist-vendored=true
