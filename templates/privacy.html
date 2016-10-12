@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title> Closest Citibikes | Home</title>
+    
+    <link href="/static/css/custom.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-37049317-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
+
+    <!-- JS Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/libraries/bootstrap.js"></script>
+    <!-- End JS Scripts -->
+
+</head>
+
+<body id="override">
+    <script type="text/javascript"> 
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"><b>Closest Citibike</b></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="address" placeholder="Enter Address">
+                    </div>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://github.com/vdersar1/ClosestCitibike"><b>Github</b></a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!-- End Navbar -->
+
+    <!--=== Content ===-->
+    <div class="content-sm">
+        <div class="container" id="privacy">
+            <div class="row space-xlg-hor">
+                <div class="col-md-12 text-muted">
+
+                    <h2 class="title-v2 title-center"><b>Privacy Policy</b></h2>
+                    <p>Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. The following outlines our privacy policy.
+                    </p>
+
+                    <ul>
+                        <li>Before or at the time of collecting personal information, we will identify the purposes for which information is being collected.</li>
+                        
+                        <li>We will collect and use of personal information solely with the objective of fulfilling those purposes specified by us and for other compatible purposes, unless we obtain the consent of the individual concerned or as required by law.</li>
+                        
+                        <li>We will only retain personal information as long as necessary for the fulfillment of those purposes.</li>
+                        
+                        <li>We will collect personal information by lawful and fair means and, where appropriate, with the knowledge or consent of the individual concerned.</li>
+                        
+                        <li>Personal data should be relevant to the purposes for which it is to be used, and, to the extent necessary for those purposes, should be accurate, complete, and up-to-date.</li>
+                        
+                        <li>We will protect personal information by reasonable security safeguards against loss or theft, as well as unauthorized access, disclosure, copying, use or modification.</li>
+                        
+                        <li>We will make readily available to customers information about our policies and practices relating to the management of personal information. </li>
+                    </ul>
+
+                    <p>We are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained. </p>                
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=== End Content ===-->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">
+                <script>
+                    var d = new Date();
+                    document.write("Closest Citibike " + d.getFullYear());
+                </script>  |  Background:
+                <a href="https://www.flickr.com/photos/anotherangle/20098039728/in/photolist-wBZH1m-65HKwa-bnukWP-LfzVJ-fP7VXA-rk1w5d-pxmnU8-qZHV1L-q8M4T8-pRvQ7e-e7qcfj-dAfwFv-qv6Z85-bkqtV2-fxKmTc-oFJycD-nn3zeN-b4vjux-9zuqjt-nG4Pus-pddxcK-bXa8uS-e5nCAp-3mxv3t-nKPKRF-4FTwMB-nPS94R-8TucXC-od2sS9-CUeFQu-9KFTeC-8Usydv-r8TmkK-rmHK8f-pAGCxQ-eMHPFd-ewYJrJ-oHYxpK-prZfbM-qWHWNG-cFS5f3-jRMbJ2-ejBDDU-peLKMT-i79qR9-cXx7Yh-oLCvrL-eegek2-pWgg42-aw32Yx/"><i>'A New Hierarchy'</i></a>
+                 by Michael Muraz licensed under 
+                <a href="https://creativecommons.org/licenses/by/2.0/"> CC BY 2.0</a>
+            </p>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- JS Scripts -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCULBWkM7EHcIiQkOqisULz1AswwHkxl_U" async defer></script>
+        <script type="text/javascript" src="/static/js/libraries/progressbar.js"></script>
+        <script type="text/javascript" src="/static/js/citibike.js"></script>
+        <script type="text/javascript" src="/static/js/site.js"></script>
+    <!-- End JS Scripts -->
+</body>
+
