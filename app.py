@@ -11,6 +11,7 @@ Citibike.main()
 def citibike():
     return render_template('citibike.html')
 
+
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
