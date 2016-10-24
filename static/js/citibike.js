@@ -119,8 +119,17 @@ function addMarker(address, latitude, longitude, markers) {
 }
 
 function get_location(){
-    if (navigator && navigator.geolocation) {
-	console.log("Getting geolocation")
+    lat = 0;
+    lon = 0;
+
+    if (myGeocode[0] && myGeocode[1]){
+		lat = Number(myGeocode[0])
+		lon = Number(myGeocode[1])
+		initMap(lat, lon)
+		send_geo();
+    }
+    else if (navigator && navigator.geolocation) {
+		console.log("Getting geolocation")
         navigator.geolocation.getCurrentPosition(showPosition, displayError);
     } 
     else {
@@ -132,7 +141,8 @@ function showPosition(position) {
     console.log("Geolocation coordinates acquired");
     lat = position.coords.latitude;
     lon = position.coords.longitude;
-    initMap(lat,lon)
+
+    initMap(lat,lon);
     send_geo();
 }
 

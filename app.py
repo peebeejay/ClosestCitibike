@@ -1,7 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import Citibike
 import logging, sys, os
-import googlemaps
 
 app = Flask(__name__)
 Citibike.main()
@@ -9,7 +8,13 @@ Citibike.main()
 
 @app.route('/')
 def citibike():
-    return render_template('citibike.html')
+    a_lat = request.args.get('lat', None)
+    a_lon = request.args.get('lon', None)
+
+    if a_lat and a_lon:
+        return render_template('citibike.html', a_lat=a_lat, a_lon=a_lon)
+    else:
+        return render_template('citibike.html')
 
 
 @app.route('/privacy')
@@ -23,7 +28,7 @@ def receive_coord():
     a_lon = request.args.get('lon', 0, type=float)
 
     final = Citibike.processCoords(a_lat, a_lon, stationReq_=5, partySize_=1)
-    print(Citibike.ChatbotStations(final, "TEST"))
+    print(Citibike.ChatbotStations(final, "TEST", a_lat, a_lon))
 
     return jsonify(result=final)
 

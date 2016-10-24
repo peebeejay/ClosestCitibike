@@ -1,5 +1,5 @@
 # Contains functions related to the processing of location coordinates and chatbot messages
-# This is a module that is supplementary to app.py
+# This module is supplementary to app.py
 
 import math, threading, time, requests, googlemaps, os, json
 
@@ -17,9 +17,10 @@ class APICall(object):
         thread.start()                                  # Start the execution
 
     def run(self):
+        URL_ROUTE = 'https://gbfs.citibikenyc.com/gbfs/en/'
         while True:
-            self.station_status = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_status.json').json()['data']['stations']
-            self.station_information = requests.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').json()['data']['stations']
+            self.station_status = requests.get(URL_ROUTE + 'station_status.json').json()['data']['stations']
+            self.station_information = requests.get(URL_ROUTE + 'station_information.json').json()['data']['stations']
             self.t1 = time.asctime()
             print('Arrival Of Fresh Data --->', "|", time.asctime())
             time.sleep(self.interval)
@@ -29,7 +30,6 @@ class APICall(object):
 
     def getStationInfo(self):
         return self.station_information, self.t1
-
 
 
 def createFinalList(statData, pSize=1, statReq=5):
@@ -83,13 +83,13 @@ def validLocation(lat, lon):
     # Checks whether requested location is within 75 miles of New York City
     lat_nyc = 40.712700
     lon_nyc = -74.005900
-    if (math.sqrt((lat-lat_nyc)**2 + (lon-lon_nyc)**2))*110 >75:
+    if (math.sqrt((lat-lat_nyc)**2 + (lon-lon_nyc)**2))*110 > 75:
         return False
     else:
         return True
 
 
-def ChatbotStations(final, address):
+def ChatbotStations(final, address, a_lat, a_lon):
     # Creates output messages for Chatbot
 
     sb = "Showing results for " + address + "\n\nBikes\n"
@@ -98,14 +98,13 @@ def ChatbotStations(final, address):
 
     sd = "Docks\n"
     for item in final[1]:
-        sd+= str(item["name"] + ": " + str(item["num_docks_available"]) + " docks\n")
+        sd += str(item["name"] + ": " + str(item["num_docks_available"]) + " docks\n")
 
-    sd+= "\nFor map view visit closestcitibike.com"
-    return sb, sd
+    sd += "\nFor map view visit closestcitibike.com/?lat=" + str(a_lat) + "&lon=" + str(a_lon)
+    return [sb, sd]
 
 
-
-## Chatbot Message Processing Functions
+# Chatbot Message Processing Functions
 def processMessage(message):
     # Processes all incoming messages from facebook. Uses a function dispatcher dictionary for.. polymorphism
 
@@ -124,7 +123,10 @@ def processMessage(message):
 
 def textMessage(m):
     # Checks if a sent message is a Text-type message. Returns True if text message, False otherwise
-    return "text" in m["message"].keys()
+    if "text" in m["message"].keys():
+        if m["message"]["text"]:
+            return True
+    return False
 
 
 def mapMessage(m):
@@ -138,22 +140,35 @@ def mapMessage(m):
 
 def processText(m):
     # Processes a Text-Type message and returns an appropriate response
-
-    specify = "Be more specific or add 'New York' to your location"
+    specify = "Be more specific or try adding 'New York' to your location"
     geocode_results = gmaps.geocode(m["message"]["text"])
 
     if len(geocode_results) > 0:
+        # Checks if any location results returned by gmaps geocode function
         a_lat = geocode_results[0]['geometry']['location']['lat']
         a_lon = geocode_results[0]['geometry']['location']['lng']
         fAddress = geocode_results[0]["formatted_address"]
 
-        if validLocation(a_lat, a_lon):
-            final = processCoords(a_lat, a_lon, stationReq_=3, partySize_=1)
-            return [ChatbotStations(final, fAddress)[0], ChatbotStations(final, fAddress)[1]]
-        else:
+        if validLocation(a_lat, a_lon) and fAddress == "New York, NY, USA":
+            # Checks whether geocode returns generic 'New York, NY, USA' address
             return [specify]
+
+        elif validLocation(a_lat, a_lon):
+            # Checks whether location is valid; ideal
+            final = processCoords(a_lat, a_lon, stationReq_=3, partySize_=1)
+            return ChatbotStations(final, fAddress, a_lat, a_lon)
+
+        else:
+            # Routed here if location is too far from New York
+            m["message"]["text"] += ", New York City"
+            return processText(m)
     else:
-        return [specify]
+        # No locations returned by gmaps geocode; re-attempts after appending ' New York City' to address
+        if "New York City" in m["message"]["text"]:
+            return [specify]
+        else:
+            m["message"]["text"] += " New York City"
+            return processText(m)
 
 
 def processMap(m):
@@ -164,7 +179,7 @@ def processMap(m):
     final = processCoords(a_lat, a_lon, stationReq_=3, partySize_=1)
 
     fAddress = gmaps.reverse_geocode((a_lat, a_lon))[0]["formatted_address"]
-    return [ChatbotStations(final, fAddress)[0], ChatbotStations(final, fAddress)[1]]
+    return ChatbotStations(final, fAddress, a_lat, a_lon)
 
 
 def processCoords(lat, lon, stationReq_, partySize_):
@@ -185,6 +200,7 @@ def processCoords(lat, lon, stationReq_, partySize_):
     final = createFinalList(station_data_list, pSize=partySize_, statReq=stationReq_)
 
     return final
+
 
 def sendMessage(recipientID, messageText):
     # Packages and sends message to facebook graph API
@@ -209,6 +225,7 @@ def sendMessage(recipientID, messageText):
     if r.status_code != 200:
         print(r.status_code)
         print(r.text)
+
 
 def main():
     # Define Global Variables
