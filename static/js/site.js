@@ -16,6 +16,29 @@ $("#parkbutton").click(function(){
 });
 
 
+//
+// Event Listener to mitigate Google Chrome - Mobile Address Bar Bug
+//
+
+function ElementResize() {
+    var HEIGHT_CHANGE_TOLERANCE = 150; // Approximately URL bar height in Chrome on tablet
+    var element = $(this);
+    var viewportHeight = $(window).height()*(1);
+    
+    $(window).resize(function () {
+        if (Math.abs(viewportHeight - $(window).height()) > HEIGHT_CHANGE_TOLERANCE) {
+            viewportHeight = $(window).height()*(1);
+            update();
+        }
+    });
+    function update() {
+        element.css('height', viewportHeight*(0.8) + 'px');
+    }
+    update();
+}
+
+$('#map').each(ElementResize);
+
 
 //
 // Progress Bar

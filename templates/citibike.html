@@ -27,7 +27,7 @@
 
 </head>
 
-<body id="override">
+<body id="bkg">
     <script type="text/javascript"> 
         var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
@@ -68,7 +68,7 @@
 
             <!-- Begin Map & Right Column -->
             <div class="col-md-9 text-center">
-                <div id="map" style="display:none;"></div>
+                <div id="map" class="resize-el" style="display:none;"></div>
             </div>
             <!-- End Map & Right Column -->
             
@@ -110,8 +110,8 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p class="text-muted">
+        <div id="footer-div" class="container">
+            <p id="footer-content" class="text-muted text-center">
                 <script>
                     var d = new Date();
                     document.write("Closest Citibike " + d.getFullYear());

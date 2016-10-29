@@ -29,6 +29,8 @@ $("#address").keyup(function(event){
 });
 
 
+
+
 function initMap(latitude, longitude) {
     var customMapTypeId = 'custom_style';
     map = new google.maps.Map(document.getElementById('map'), {
@@ -65,7 +67,9 @@ function initMap(latitude, longitude) {
           infowindow.open(map, marker);
         });
 
+    
     document.getElementById('map').style.display="block";
+
     document.getElementById('progress').style.display="none";
 }
 

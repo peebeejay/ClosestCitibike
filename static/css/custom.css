@@ -6,14 +6,16 @@ min-height: 100%;
 
 body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-	margin-bottom: 30px; /* Margin bottom by footer height */
+	/*margin-bottom: 2.2vw;*/ /* Margin bottom by footer height */
+	margin-bottom: 30px;
 }
 
 
-#override{
+#bkg{
 	background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0)), url(https://c1.staticflickr.com/1/524/20098039728_3c0096ca92_k.jpg);
-	background-size: cover;
+	/*background-size: cover;*/
 	background-repeat: no-repeat;
+	/*height:100vh;*/
 }
 
 #header-content{
@@ -34,29 +36,32 @@ body {
 #progress {
 	width: 200px;
 	height: 200px;
-	margin: 10vh auto;
+	margin: 0px auto;
 }
 
 #privacy {
     background-color: #222222;
 }
 
+#footer-content {
+	padding: 6px 0px;
+	margin: 0px -5px;
+	text-align:center;
+}
 
 /* --> Begin Footer Section <-- */
 	.footer {
 		position: absolute;
 		bottom: 0;
-		width: 100%;
+		width: 100vw;
+		/*width: 100%;*/
 		/* Set the fixed height of the footer here */
+		
+		/*height: 2.2vw;*/
 		height: 30px;
-		text-align:center;
 		background-color: #222222;
 		/*background-color:rgba(255,255,255,0.7);*/
 		font-size: 12px;
-	}
-
-	.container .text-muted {
-	  margin: 7px 0;
 	}
 /* --> End Footer Section <-- */
 
